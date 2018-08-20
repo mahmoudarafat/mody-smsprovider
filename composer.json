@@ -1,5 +1,5 @@
 {
-    "name": "mody/smsgateway",
+    "name": "mody/smsprovider",
     "description": "config your sms gateway provider and start sending sms with your laravel project",
     "type": "package",
     "require": {
