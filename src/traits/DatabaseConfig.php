@@ -1,7 +1,7 @@
 <?php
 
 
-namespace mody\smsgateway\traits;
+namespace mody\smsprovider\traits;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -56,7 +56,6 @@ trait DatabaseConfig
         }
     }
 
-
     protected function configMessagesTable()
     {
         $check = Schema::hasTable('sms_provider_messages');
@@ -100,6 +99,7 @@ trait DatabaseConfig
             });
         }
     }
+
     protected function configTrackMessages()
     {
         $check = Schema::hasTable('sms_provider_track_activity');
@@ -117,6 +117,7 @@ trait DatabaseConfig
                 $table->integer('message_id')->nullable();
                 $table->integer('user_id')->nullable();
                 $table->integer('group_id')->nullable();
+                $table->text('description')->nullable();
                 $table->softDeletes();
                 $table->timestamps();
             });

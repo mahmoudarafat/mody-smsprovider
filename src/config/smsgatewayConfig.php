@@ -3,7 +3,7 @@
 return [
 
     /*
-     * smsgateway package provides multiple connection with many sms providers.
+     * smsprovider package provides multiple connection with many sms providers.
      * just set your provider configuration and start sending messages.
      *
      * two officially plans:

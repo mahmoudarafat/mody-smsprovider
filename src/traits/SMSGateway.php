@@ -1,9 +1,9 @@
 <?php
 
 
-namespace mody\smsgateway\traits;
+namespace mody\smsprovider\traits;
 
-use mody\smsgateway\Models\Provider;
+use mody\smsprovider\Models\Provider;
 
 trait SMSGateway
 {
@@ -375,7 +375,7 @@ trait SMSGateway
                 return false;
             }
         }else{
-            $tryone = Provider::where('account_id', session('group_id'))->where('default', 1)->first();
+            $tryone = Provider::where('group_id', session('group_id'))->where('default', 1)->first();
             if ($tryone) {
                 return $tryone;
             } else {

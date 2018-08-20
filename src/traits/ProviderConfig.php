@@ -1,9 +1,9 @@
 <?php
 
-namespace mody\smsgateway\traits;
+namespace mody\smsprovider\traits;
 
-use mody\smsgateway\Models\Provider;
-use mody\smsgateway\Models\ProviderParameter;
+use mody\smsprovider\Models\Provider;
+use mody\smsprovider\Models\ProviderParameter;
 
 trait ProviderConfig
 {
@@ -58,13 +58,13 @@ trait ProviderConfig
         $messages = [
             'api_username' => '',
             'api_password' => '',
-            'api_company.required' => trans('smsgateway::smsgateway.attributes.company_name'),
-            'api_url.required' => trans('smsgateway::smsgateway.attributes.url_required'),
-            'api_url.unique' => trans('smsgateway::smsgateway.attributes.url_unique'),
-            'api_method.required' => trans('smsgateway::smsgateway.attributes.http_method'),
-            'api_destination.required' => trans('smsgateway::smsgateway.attributes.destination_attr'),
-            'api_message.required' => trans('smsgateway::smsgateway.attributes.message_attr'),
-            'api_success_code.required' => trans('smsgateway::smsgateway.attributes.success_code'),
+            'api_company.required' => trans('smsprovider::smsgateway.attributes.company_name'),
+            'api_url.required' => trans('smsprovider::smsgateway.attributes.url_required'),
+            'api_url.unique' => trans('smsprovider::smsgateway.attributes.url_unique'),
+            'api_method.required' => trans('smsprovider::smsgateway.attributes.http_method'),
+            'api_destination.required' => trans('smsprovider::smsgateway.attributes.destination_attr'),
+            'api_message.required' => trans('smsprovider::smsgateway.attributes.message_attr'),
+            'api_success_code.required' => trans('smsprovider::smsgateway.attributes.success_code'),
         ];
         $this->validate($request, $rules, $messages);
     }

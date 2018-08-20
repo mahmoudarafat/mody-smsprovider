@@ -1,21 +1,25 @@
 <?php
 
-Route::group(['middleware' => 'web'], function () {
-    Route::get('setup', 'mody\smsgateway\Facades\SMSGateway@configProvider');
-    Route::get('user-providers', 'mody\smsgateway\Facades\SMSGateway@myProvidersView')->name('smsgateway.providers.auth_index');
-    Route::get('user-trashed-providers', 'mody\smsgateway\Facades\SMSGateway@myTrashedProvidersView');
-    Route::get('group-providers', 'mody\smsgateway\Facades\SMSGateway@groupProvidersView');
-    Route::get('group-trashed-providers', 'mody\smsgateway\Facades\SMSGateway@groupTrashedProvidersView');
-    Route::get('edit-provider/{provider_id}', 'mody\smsgateway\Facades\SMSGateway@editProvider')->name('smsgateway.providers.edit_provider');
-    Route::post('submit_setup', 'mody\smsgateway\Facades\SMSGateway@submitProviderSetup')->name('smsgateway.submit_setup');
+Route::group(['middleware' => 'web', 'prefix' => 'smsprovider'], function () {
+    Route::get('setup', 'mody\smsprovider\Facades\SMSProvider@configProvider');
+    Route::get('user-providers', 'mody\smsprovider\Facades\SMSProvider@myProvidersView')->name('smsprovider.providers.auth_index');
+    Route::get('user-trashed-providers', 'mody\smsprovider\Facades\SMSProvider@myTrashedProvidersView');
+    Route::get('group-providers', 'mody\smsprovider\Facades\SMSProvider@groupProvidersView');
+    Route::get('group-trashed-providers', 'mody\smsprovider\Facades\SMSProvider@groupTrashedProvidersView');
+    Route::get('edit-provider/{provider_id}', 'mody\smsprovider\Facades\SMSProvider@editProvider')->name('smsprovider.providers.edit_provider');
+    Route::post('submit_setup', 'mody\smsprovider\Facades\SMSProvider@submitProviderSetup')->name('smsprovider.submit_setup');
 
-    Route::post('update_setup', 'mody\smsgateway\Facades\SMSGateway@updateProviderSetup')->name('smsgateway.providers.update_setup');
+    Route::post('update_setup', 'mody\smsprovider\Facades\SMSProvider@updateProviderSetup')->name('smsprovider.providers.update_setup');
 
-    //    Route::get('send', 'mody\smsgateway\controllers\SMSGatewayController@sendNewSMS')->name('smsgateway.send_sms');
-    //    Route::get('test', 'mody\smsgateway\controllers\SMSGateway@test');
+    //    Route::get('send', 'mody\smsprovider\controllers\SMSProvider@sendNewSMS')->name('smsprovider.send_sms');
+    //    Route::get('test', 'mody\smsprovider\controllers\SMSProvider@test');
 
     Route::get('gg', function (){
-       $x = \mody\smsgateway\Facades\SMSGateway::sendSMS('test Me', '201065825376');
+
+//        return \mody\smsprovider\Facades\SMSProvider::groupProvidersView();
+
+
+       $x = \mody\smsprovider\Facades\SMSProvider::sendSMS('test Me', '201065825376');
         dd($x);
     });
 

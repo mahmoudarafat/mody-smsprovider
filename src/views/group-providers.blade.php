@@ -1,4 +1,4 @@
-@extends('smsgateway::layouts.master')
+@extends('smsprovider::layouts.master')
 
 @section('content')
 
@@ -16,9 +16,9 @@
                     <thead>
                     <tr class="info">
                         <th>#</th>
-                        <th>{{ trans('smsgateway::smsgateway.api_company') }}</th>
-                        <th>{{ trans('smsgateway::smsgateway.api_url') }}</th>
-                        <th>{{ trans('smsgateway::smsgateway.actions') }}</th>
+                        <th>{{ trans('smsprovider::smsgateway.api_company') }}</th>
+                        <th>{{ trans('smsprovider::smsgateway.api_url') }}</th>
+                        <th>{{ trans('smsprovider::smsgateway.actions') }}</th>
                     </tr>
                     </thead>
                     <tbody id="table-body">
@@ -34,31 +34,31 @@
 
                                         @if($item->trashed())
                                             <button class="btn btn-warning" onclick="recover()" type="button">
-                                                {{ trans('smsgateway::smsgateway.recover') }}
+                                                {{ trans('smsprovider::smsgateway.recover') }}
                                             </button>
                                         @else
                                             @if($item->isDefault())
                                                 <button class="btn btn-primary"
                                                         style="background: #d5da71;border: #d5da71; color:#0b031d;"
                                                         onclick="removeDefault()" type="button">
-                                                    {{ trans('smsgateway::smsgateway.removeDefault') }}
+                                                    {{ trans('smsprovider::smsgateway.removeDefault') }}
                                                 </button>
                                             @else
                                                 <button class="btn btn-primary" onclick="setDefault()" type="button">
-                                                    {{ trans('smsgateway::smsgateway.setDefault') }}
+                                                    {{ trans('smsprovider::smsgateway.setDefault') }}
                                                 </button>
                                             @endif
                                             <a class="btn btn-info"
-                                               href="{{ route('smsgateway.providers.edit_provider', $item->id) }}">
-                                                {{ trans('smsgateway::smsgateway.edit') }}
+                                               href="{{ route('smsprovider.providers.edit_provider', $item->id) }}">
+                                                {{ trans('smsprovider::smsgateway.edit') }}
                                             </a>
 
                                             <button class="btn btn-warning" onclick="softDelete()" type="button">
-                                                {{ trans('smsgateway::smsgateway.trash') }}
+                                                {{ trans('smsprovider::smsgateway.trash') }}
                                             </button>
 
                                             <button class="btn btn-default" style="background: #da0000;color:#eee;" onclick="destroy()" type="button">
-                                                {{ trans('smsgateway::smsgateway.delete') }}
+                                                {{ trans('smsprovider::smsgateway.delete') }}
                                             </button>
                                         @endif
                                     </div>
