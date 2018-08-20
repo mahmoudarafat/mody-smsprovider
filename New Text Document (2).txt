@@ -1,0 +1,82 @@
+SMSGateway service provider 
+	mody\smsgateway\SMSGatewayServiceProvider::class,
+
+----------------------------------------------------------------------------
+
+SMSGateway alias
+	'SMSGateway' => mody\smsgateway\Facades\SMSGateway::class,
+
+-----------------------------------------------------------------------------
+
+SMSGateway Config File
+	config/smsgatewayConfig.php
+	  --> choose your plan [individual user or group of users]	
+
+-----------------------------------------------------------------------------
+
+return new provider setup view:
+	SMSGateway::configProvider();
+
+-----------------------------------------------------------------------------
+
+send new sms to number or multiple numbers "xxxxx,zzzzzz,yyyyyy"
+	SMSGateway::sendSMS($message, $numbers);
+	Example:
+		SMSGateway::sendSMS('hi, Mahmoud', '201065825376');
+		SMSGateway::sendSMS('hi, group member', '201065825376,01004456235');
+
+------------------------------------------------------------------------------
+
+return only your providers view [even if you are in group]
+	get plans you've configured
+		SMSGateway::myProviders();
+
+------------------------------------------------------------------------------
+
+return group plan view
+	SMSGateway::groupProviders();
+
+------------------------------------------------------------------------------
+
+return a single provider configuartion view/edit view
+	SMSGateway::updateProvider($provider_id);
+
+------------------------------------------------------------------------------
+
+remove provider from usage list [soft delete]  
+	SMSGateway::skipProvider($provider_id');
+
+------------------------------------------------------------------------------
+
+destroy provider [becareful, deleting provider means that you will lose {configs, messages, ...}]
+	SMSGateway::destroyProvider($provider_id');
+
+------------------------------------------------------------------------------
+
+set default provider
+	SMSGateway::setDefaultProvider($provider_id);
+
+------------------------------------------------------------------------------
+
+recover deleted provider
+	SMSGateway::recoverProvider($provider_id);
+
+------------------------------------------------------------------------------
+
+get trashed providers 
+	return collection for auth user => 
+		SMSGateway::myTrashedProviders();
+	return collection for group => 
+		SMSGateway::groupTrashedProviders();
+	return view for auth user => 
+		SMSGateway::myTrashedProvidersView();  
+	return view for group => 
+		SMSGateway::groupTrashedProvidersView();
+
+-------------------------------------------------------------------------------
+
+remove default provider 
+	SMSGateway::removeDefaultProvider();
+
+-------------------------------------------------------------------------------
+
