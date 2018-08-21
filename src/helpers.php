@@ -1,12 +1,5 @@
 <?php 
 
-function lang($key, $replace=[],$locale=null){
-	$locale = app()->getLocale();
-	
-    return app('translator')->trans($key, $replace, $locale);
-}
-
-
 function get_url($url){
 
     $u = url($url);
