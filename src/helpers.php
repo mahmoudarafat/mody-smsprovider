@@ -1,14 +1,21 @@
 <?php 
 
-function get_url($url){
+if (!function_exists('get_url')) {
 
-    $u = url($url);
+     function get_url()
+     {
 
-    if (strpos($u, 'public') !== false) {
-        return $u;
-    }else{
-        $url = "public\\".$url;
-        $u = url($url);
-        return $u;
-    }
+		$u = url($url);
+
+		if (strpos($u, 'public') !== false) {
+			return $u;
+		}else{
+			$url = "public\\".$url;
+			$u = url($url);
+			return $u;
+		}
+	}
+
 }
+
+?>
