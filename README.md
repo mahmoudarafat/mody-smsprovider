@@ -67,17 +67,6 @@ Example
 	
 		SMSProvider::sendSMS('hi, group member', '20106xxxxxxx,0120xxxxxxx,20111xxxxxxx');
 		
-#return only your providers view [even if you are in group]
-get plans you've configured
-``` php
-		SMSProvider::myProviders();
-```
-	
-return group plan view
-	
-```php
-	SMSProvider::groupProviders();
-```
 return a single provider configuartion view/edit view
 ```php
 	SMSProvider::updateProvider($provider_id);
@@ -102,8 +91,36 @@ recover deleted provider
 ```php
 	SMSProvider::recoverProvider($provider_id);
 ```
+
+## get providers 
+return collection for auth user => 
+```php
+	SMSProvider::myProviders();
+```
+return collection for group => 
+```php
+	SMSProvider::groupProviders();
+```
+return view for auth user => 
+```php
+	SMSProvider::myProvidersView();
 	
-#get trashed providers 
+	route('smsprovider.providers.user-providers');
+	
+	url('smsprovider/user-providers');
+```
+	
+return view for group => 
+```php
+	SMSProvider::groupProvidersView();
+		
+	route('smsprovider.providers.group-providers');
+	
+	url('smsprovider/group-providers');
+```
+	
+
+## get trashed providers 
 return collection for auth user => 
 ```php
 	SMSProvider::myTrashedProviders();
@@ -115,10 +132,19 @@ return collection for group =>
 return view for auth user => 
 ```php
 	SMSProvider::myTrashedProvidersView();
+	
+	route('smsprovider.providers.user-trashed-providers');
+	
+	url('smsprovider/user-trashed-providers');
 ```
+	
 return view for group => 
 ```php
 	SMSProvider::groupTrashedProvidersView();
+		
+	route('smsprovider.providers.group-trashed-providers');
+	
+	url('smsprovider/group-trashed-providers');
 ```
 		
 remove default provider 
