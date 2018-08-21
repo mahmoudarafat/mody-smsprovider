@@ -8,7 +8,6 @@ use DB;
 use mody\smsprovider\controllers\SMSProviderController;
 
 class SMSProvider extends SMSProviderController
-
 {
 
     /**

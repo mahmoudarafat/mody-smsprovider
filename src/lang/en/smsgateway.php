@@ -38,4 +38,22 @@ return [
     'actions' => 'Actions',
     'saved' => 'Saved successfully',
     'error' => 'Whoooooops, Something went wrong!!',
+
+
+    'recover_error' => 'Error happened while recovering the provider',
+    'recover_success' => 'Successfully Recovered from trash',
+
+    'set_default_success' => 'Default provider is updated successfully',
+    'set_default_error' => 'Error happened while updatting the default provider',
+
+    'remove_default_success' => 'Default provider is removed successfully',
+    'remove_default_error' => 'Error happened while removing the default provider',
+
+
+    'delete-success' => 'provider is trashed successfully',
+    'delete-error' => 'Error happend while trashing the provider',
+    'destroy_success' => 'provider is destroyed successfully',
+    'destroy_error' => 'Error happened while detroying the provider',
+
+
 ];

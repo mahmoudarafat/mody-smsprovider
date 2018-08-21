@@ -83,12 +83,14 @@ class SMSProviderController extends Controller
 
     public function markProviderAsDefault($provider_id)
     {
-        DB::transaction(function () use ($provider_id) {
 
-            $default = $this->initProvider();
+        $default = $this->initProvider();
 
-            $provider = Provider::find($provider_id);
-            if ($provider) {
+        $provider = Provider::find($provider_id);
+
+        if ($provider) {
+            DB::transaction(function () use ($provider_id, $default, $provider) {
+
                 $company_name = $provider->company_name;
 
                 if ($default) {
@@ -107,13 +109,13 @@ class SMSProviderController extends Controller
                     $description .= 'instead of ' . $def_name . '.';
                 }
                 $this->recordTrack($tr['5'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+            });
 
-                return true;
-            } else {
-                return false;
-            }
+            return true;
+        } else {
+            return false;
+        }
 
-        });
 
     }
 
@@ -125,7 +127,7 @@ class SMSProviderController extends Controller
 
             `;
 
-        try{
+        try {
 
             $this->configProviderTable();
             $this->configAdditionalParams();
@@ -161,9 +163,9 @@ class SMSProviderController extends Controller
             return redirect()->route('smsprovider.providers.auth_index')->with([
                 'success' => trans('smsprovider::smsgateway.saved')
             ]);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->with([
-                'error' =>  trans('smsprovider::smsgateway.error')
+                'error' => trans('smsprovider::smsgateway.error')
             ]);
         }
     }
@@ -236,11 +238,13 @@ class SMSProviderController extends Controller
     {
         $provider = Provider::find($provider_id);
         if ($provider) {
-            $company_name = $provider->company_name;
-            $provider->delete();
-            $tr = $this->trackArray();
-            $description = 'put provider ' . $company_name . '[' . $provider_id . '] in trash';
-            $this->recordTrack($tr['3'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+            \DB::transaction(function () use ($provider, $provider_id) {
+                $company_name = $provider->company_name;
+                $provider->delete();
+                $tr = $this->trackArray();
+                $description = 'put provider ' . $company_name . '[' . $provider_id . '] in trash';
+                $this->recordTrack($tr['3'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+            });
             return true;
         } else {
             return false;
@@ -252,12 +256,14 @@ class SMSProviderController extends Controller
     {
         $provider = Provider::find($provider_id);
         if ($provider) {
-            $company_name = $provider->company_name;
-            $provider->forceDelete();
-            $tr = $this->trackArray();
-            $description = 'provider ' . $company_name . ' [' . $provider_id . '] is removed for god';
-            $this->recordTrack($tr['4'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+            \DB::transaction(function () use ($provider, $provider_id) {
 
+                $company_name = $provider->company_name;
+                $provider->forceDelete();
+                $tr = $this->trackArray();
+                $description = 'provider ' . $company_name . ' [' . $provider_id . '] is removed for god';
+                $this->recordTrack($tr['4'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+            });
             return true;
         } else {
             return false;
@@ -266,17 +272,21 @@ class SMSProviderController extends Controller
 
     public function recoverTrashedProvider($provider_id)
     {
-        $provider = Provider::find($provider_id);
+        $provider = Provider::withTrashed()->find($provider_id);
+
         if ($provider) {
-            if ($provider->trashed()) {
-                $company_name = $provider->company_name;
-                $provider->restore();
+            \DB::transaction(function () use ($provider, $provider_id) {
 
-                $tr = $this->trackArray();
-                $description = 'provider ' . $company_name . ' [' . $provider_id . '] is restored from trash';
-                $this->recordTrack($tr['7'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                if ($provider->trashed()) {
+                    $company_name = $provider->company_name;
+                    $provider->restore();
 
-            }
+                    $tr = $this->trackArray();
+                    $description = 'provider ' . $company_name . ' [' . $provider_id . '] is restored from trash';
+                    $this->recordTrack($tr['7'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+
+                }
+            });
             return true;
         } else {
             return false;
@@ -288,16 +298,16 @@ class SMSProviderController extends Controller
         $provider = $this->initProvider();
         if ($provider) {
             if ($provider->isDefault()) {
+                \DB::transaction(function () use ($provider) {
+                    $company_name = $provider->company_name;
+                    $provider_id = $provider->id;
+                    $provider->default = false;
+                    $provider->save();
 
-                $company_name = $provider->company_name;
-                $provider_id = $provider->id;
-                $provider->default = false;
-                $provider->save();
-
-                $tr = $this->trackArray();
-                $description = 'provider ' . $company_name . ' [' . $provider_id . '] is not the default Provider any more';
-                $this->recordTrack($tr['6'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
-
+                    $tr = $this->trackArray();
+                    $description = 'provider ' . $company_name . ' [' . $provider_id . '] is not the default Provider any more';
+                    $this->recordTrack($tr['6'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                });
                 return true;
             } else {
                 return false;

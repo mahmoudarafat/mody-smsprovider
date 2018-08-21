@@ -11,7 +11,7 @@
                 <hr>
             </div>
             <div class="col-md-10 col-md-offset-1">
-                <form action="{{ route('smsprovider.submit_setup') }}" method="post">
+                <form action="{{ route('smsprovider.providers.submit_setup') }}" method="post">
                     <input name="_token" value="{{ csrf_token() }}" type="hidden">
                     {{--{!! csrf_field() !!}--}}
                     <h2 class="title-page">{{ trans('smsprovider::smsgateway.account_settings') }}</h2>

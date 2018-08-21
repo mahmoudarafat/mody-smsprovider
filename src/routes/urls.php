@@ -1,26 +1,33 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'smsprovider'], function () {
-    Route::get('setup', 'mody\smsprovider\Facades\SMSProvider@configProvider');
-    Route::get('user-providers', 'mody\smsprovider\Facades\SMSProvider@myProvidersView')->name('smsprovider.providers.auth_index');
-    Route::get('user-trashed-providers', 'mody\smsprovider\Facades\SMSProvider@myTrashedProvidersView');
-    Route::get('group-providers', 'mody\smsprovider\Facades\SMSProvider@groupProvidersView');
-    Route::get('group-trashed-providers', 'mody\smsprovider\Facades\SMSProvider@groupTrashedProvidersView');
-    Route::get('edit-provider/{provider_id}', 'mody\smsprovider\Facades\SMSProvider@editProvider')->name('smsprovider.providers.edit_provider');
-    Route::post('submit_setup', 'mody\smsprovider\Facades\SMSProvider@submitProviderSetup')->name('smsprovider.submit_setup');
+$SMSProvider = 'mody\smsprovider\Facades\SMSProvider';
+$SMSProviderAjaxController = 'mody\smsprovider\controllers\SMSProviderAjaxController';
+$route =
+    Route::group([
+        'middleware' => 'web',
+        'prefix' => 'smsprovider',
+        'as' => 'smsprovider.providers.'
+    ],
+        function () use ($SMSProvider, $SMSProviderAjaxController) {
+            Route::get('setup', $SMSProvider . '@configProvider');
+            Route::get('user-providers', $SMSProvider . '@myProvidersView')->name('auth_index');
+            Route::get('user-trashed-providers', $SMSProvider . '@myTrashedProvidersView');
+            Route::get('group-providers', $SMSProvider . '@groupProvidersView');
+            Route::get('group-trashed-providers', $SMSProvider . '@groupTrashedProvidersView');
+            Route::get('edit-provider/{provider_id}', $SMSProvider . '@editProvider')->name('edit_provider');
+            Route::post('submit_setup', $SMSProvider . '@submitProviderSetup')->name('submit_setup');
 
-    Route::post('update_setup', 'mody\smsprovider\Facades\SMSProvider@updateProviderSetup')->name('smsprovider.providers.update_setup');
+            Route::post('update_setup', $SMSProvider . '@updateProviderSetup')->name('update_setup');
 
-    //    Route::get('send', 'mody\smsprovider\controllers\SMSProvider@sendNewSMS')->name('smsprovider.send_sms');
-    //    Route::get('test', 'mody\smsprovider\controllers\SMSProvider@test');
+            Route::group([
+                'prefix' => 'ajax',
+                'as' => 'ajax.'
+            ], function () use ($SMSProviderAjaxController) {
+                Route::post('restore-provider', $SMSProviderAjaxController . '@recoverProvider')->name('restore-provider');
+                Route::post('trash-provider', $SMSProviderAjaxController . '@trashProvider')->name('trash-provider');
+                Route::post('destroy-provider', $SMSProviderAjaxController . '@destroyProvider')->name('destroy-provider');
+                Route::post('set-default-provider', $SMSProviderAjaxController . '@setDefaultProvider')->name('set-default-provider');
+                Route::post('remove-default-provider', $SMSProviderAjaxController . '@removeDefaultProvider')->name('remove-default-provider');
+            });
 
-    Route::get('gg', function (){
-
-//        return \mody\smsprovider\Facades\SMSProvider::groupProvidersView();
-
-
-       $x = \mody\smsprovider\Facades\SMSProvider::sendSMS('test Me', '201065825376');
-        dd($x);
-    });
-
-});
+        });
