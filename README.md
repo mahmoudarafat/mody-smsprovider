@@ -58,16 +58,13 @@ return new provider setup view:
 ```
 	
 send new sms to number or multiple numbers "xxxxx,zzzzzz,yyyyyy"
-	```php
+```php
 	SMSProvider::sendSMS($message, $numbers);
-	```
-	Example:
-	
-	``` php	
+```
+		
 		SMSProvider::sendSMS('hi, Mahmoud', '20106xxxxxxx');
 	
 		SMSProvider::sendSMS('hi, group member', '20106xxxxxxx,0120xxxxxxx,20111xxxxxxx');
-	```
 		
 return only your providers view [even if you are in group]
 	get plans you've configured
