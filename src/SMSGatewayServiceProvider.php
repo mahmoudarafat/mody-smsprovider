@@ -24,7 +24,12 @@ class SMSGatewayServiceProvider extends ServiceProvider
 				__DIR__.'/assets' => public_path('packages\mody\smsprovider'),
 			], 'public');
 		}
-
+		
+		if(! file_exists(base_path('config/smsgatewayConfig.php')))
+		{
+			$this->publishes([ __DIR__.'/config' => base_path('config')]);
+		}
+		
 	}
     /**
      * Register services.
