@@ -3,6 +3,7 @@
 namespace mody\smsprovider;
 
 use Illuminate\Support\ServiceProvider;
+use mody\smsprovider\commands\tableCommand;
 use mody\smsprovider\controllers\SMSGatewayController;
 use mody\smsprovider\controllers\SMSProviderController;
 
@@ -24,12 +25,17 @@ class SMSGatewayServiceProvider extends ServiceProvider
 				__DIR__.'/assets' => public_path('packages\mody\smsprovider'),
 			], 'public');
 		}
-		
+
 		if(! file_exists(base_path('config/smsgatewayConfig.php')))
 		{
-			$this->publishes([ __DIR__.'/config' => base_path('config')]);
+			$this->publishes([ __DIR__.'/config/smsgatewayConfig.php' => base_path('config')]);
 		}
-		
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                tableCommand::class
+            ]);
+        }
+
 	}
     /**
      * Register services.
