@@ -55,6 +55,10 @@ return new provider setup view:
 	
 ```php
 	SMSProvider::configProvider();
+	
+	route('smsprovider.providers.setup');
+	
+	url('smsprovider.setup');
 ```
 	
 send new sms to number or multiple numbers "xxxxx,zzzzzz,yyyyyy"
@@ -91,6 +95,16 @@ recover deleted provider
 ```php
 	SMSProvider::recoverProvider($provider_id);
 ```
+remove default provider 
+```php
+	SMSProvider::removeDefaultProvider();
+```
+		
+set default provider 
+```php
+	SMSProvider::removeDefaultProvider($provider_id);
+```
+
 
 ## get providers 
 return collection for auth user => 
@@ -147,12 +161,3 @@ return view for group =>
 	url('smsprovider/group-trashed-providers');
 ```
 		
-remove default provider 
-```php
-	SMSProvider::removeDefaultProvider();
-```
-		
-set default provider 
-```php
-	SMSProvider::removeDefaultProvider($provider_id);
-```
