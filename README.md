@@ -61,70 +61,72 @@ send new sms to number or multiple numbers "xxxxx,zzzzzz,yyyyyy"
 ```php
 	SMSProvider::sendSMS($message, $numbers);
 ```
-		
+Example
+
 		SMSProvider::sendSMS('hi, Mahmoud', '20106xxxxxxx');
 	
 		SMSProvider::sendSMS('hi, group member', '20106xxxxxxx,0120xxxxxxx,20111xxxxxxx');
 		
-return only your providers view [even if you are in group]
-	get plans you've configured
-	``` php
+#return only your providers view [even if you are in group]
+get plans you've configured
+``` php
 		SMSProvider::myProviders();
-	```
-	return group plan view
+```
 	
-	```php
+return group plan view
+	
+```php
 	SMSProvider::groupProviders();
-	```
+```
 return a single provider configuartion view/edit view
-	```php
+```php
 	SMSProvider::updateProvider($provider_id);
-	```
+```
 	
 move provider to trash [soft delete]  
-	```php
+```php
 	SMSProvider::deleteProvider($provider_id');
-	```
+```
 	
 destroy provider [becareful, deleting provider means that you will lose {configs, messages, ...}]
-	```php
+```php
 	SMSProvider::destroyProvider($provider_id');
-	```
+```
 
 set default provider
-	```php
+```php
 	SMSProvider::setDefaultProvider($provider_id);
-	```
+```
 	
 recover deleted provider
-	```php
+```php
 	SMSProvider::recoverProvider($provider_id);
-	```
+```
 	
-get trashed providers 
-	return collection for auth user => 
-		```php
-		SMSProvider::myTrashedProviders();
-		```
-	return collection for group => 
-		```php
-		SMSProvider::groupTrashedProviders();
-		```
-	return view for auth user => 
-		```php
-		SMSProvider::myTrashedProvidersView();
-		```
-	return view for group => 
-		```php
-		SMSProvider::groupTrashedProvidersView();
-		```
+#get trashed providers 
+return collection for auth user => 
+```php
+	SMSProvider::myTrashedProviders();
+```
+return collection for group => 
+```php
+	SMSProvider::groupTrashedProviders();
+```
+return view for auth user => 
+```php
+	SMSProvider::myTrashedProvidersView();
+```
+return view for group => 
+```php
+	SMSProvider::groupTrashedProvidersView();
+```
 		
 remove default provider 
-	```php
+```php
 	SMSProvider::removeDefaultProvider();
-	```
+```
 		
 set default provider 
-	```php
+```php
 	SMSProvider::removeDefaultProvider($provider_id);
-	```
+```
