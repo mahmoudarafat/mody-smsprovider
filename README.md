@@ -59,7 +59,8 @@ choose if you want to track package activity
     
     'track' => true
 
-#### 3. publish assets ` php artisan vendor:publish `
+#### 3. publish assets 
+	php artisan vendor:publish 
 
 #### 4. go to ` new provider setup view as a start ` 
 
@@ -86,7 +87,8 @@ choose if you want to track package activity
 
 ------------------------------------------------------------------------------
  
-### Very important: 	`use this session with group plan`
+### Very important: 
+`use this session with group plan`
 	
 ```php
 session()->put('group_id', $group_id);
@@ -107,7 +109,7 @@ return new provider setup view:
 	url('smsprovider.setup');
 ```
 	
-send new sms to number or multiple numbers "xxxxx,zzzzzz,yyyyyy"
+send new sms to number or multiple numbers
 ```php
 	SMSProvider::sendSMS($message, $numbers);
 ```
