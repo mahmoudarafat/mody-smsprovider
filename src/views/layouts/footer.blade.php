@@ -9,7 +9,7 @@
 </div>
 {{--end left content--}}
 
-<script src="{{ url('packages\mody\smsprovider\jquery-3.3.1.min.js') }}"></script>
-<script src="{{ url('packages\mody\smsprovider\bootstrap.min.js') }}"></script>
+<script src="{{ get_url('packages\mody\smsprovider\jquery-3.3.1.min.js') }}"></script>
+<script src="{{ get_url('packages\mody\smsprovider\bootstrap.min.js') }}"></script>
 
 @yield('scripts')

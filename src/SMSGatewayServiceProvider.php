@@ -16,6 +16,7 @@ class SMSGatewayServiceProvider extends ServiceProvider
     public function boot()
     {
         include __DIR__.'/routes/urls.php';
+        include __DIR__.'/helpers.php';
 		$this->loadTranslationsFrom(__DIR__.'/lang', 'smsprovider');
 		if(! file_exists(public_path('packages\mody\smsprovider\style.css')))
 		{
@@ -23,16 +24,7 @@ class SMSGatewayServiceProvider extends ServiceProvider
 				__DIR__.'/assets' => public_path('packages\mody\smsprovider'),
 			], 'public');
 		}
-		/*
-		if(! file_exists(base_path('resources/views/lang/ar/smsprovider.php')))
-		{
-			$this->publishes([ __DIR__.'/lang/ar' => base_path('resources/views/lang/ar')]);
-		}
-		if(! file_exists(base_path('resources/views/lang/en/smsprovider.php')))
-		{
-			$this->publishes([ __DIR__.'/lang/en' => base_path('resources/views/lang/en')]);
-		}
-		*/
+
 	}
     /**
      * Register services.

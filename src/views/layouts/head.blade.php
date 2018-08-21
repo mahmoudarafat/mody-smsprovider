@@ -8,11 +8,11 @@
     <link rel="icon" href="../../favicon.ico">
 
     <!-- Bootstrap core CSS -->
-    <link href="{{  url('packages\mody\smsprovider\bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{  get_url('packages\mody\smsprovider\bootstrap.min.css') }}" rel="stylesheet">
 
     @if(App::isLocale('ar'))
-        <link href="{{ url('packages\mody\smsprovider\bootstrap.rtl.min.css') }}" rel="stylesheet">
+        <link href="{{ get_url('packages\mody\smsprovider\bootstrap.rtl.min.css') }}" rel="stylesheet">
     @endif
-    <link href="{{  url('packages\mody\smsprovider\style.css') }}" rel="stylesheet">
+    <link href="{{  get_url('packages\mody\smsprovider\style.css') }}" rel="stylesheet">
     @yield('styles')
 </head>
