@@ -58,8 +58,11 @@ choose your plan [individual user or group of users]
 choose if you want to track package activity
     
     'track' => true
-    
-#### 3. go to ` new provider setup view as a start ` 
+
+#### 3. publish assets
+` php artisan vendor:publish `
+
+#### 4. go to ` new provider setup view as a start ` 
 
 --------------------------------------------------------------------------
 
