@@ -13,6 +13,7 @@ trait DatabaseConfig
     {
         $check = Schema::hasTable('sms_providers');
         if (!$check) {
+            Schema::defaultStringLength(191);
             Schema::create('sms_providers', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('company_name');
@@ -37,6 +38,7 @@ trait DatabaseConfig
     {
         $check = Schema::hasTable('sms_provider_additional_params');
         if (!$check) {
+            Schema::defaultStringLength(191);
             Schema::create('sms_provider_additional_params', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('sms_provider_id')->unsigned();
@@ -60,6 +62,7 @@ trait DatabaseConfig
     {
         $check = Schema::hasTable('sms_provider_messages');
         if (!$check) {
+            Schema::defaultStringLength(191);
             Schema::create('sms_provider_messages', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('sms_provider_id')->unsigned();
@@ -86,6 +89,7 @@ trait DatabaseConfig
     {
         $check = Schema::hasTable('sms_direct_messages');
         if (!$check) {
+            Schema::defaultStringLength(191);
             Schema::create('sms_direct_messages', function (Blueprint $table) {
                 $table->increments('id');
 
@@ -104,6 +108,7 @@ trait DatabaseConfig
     {
         $check = Schema::hasTable('sms_provider_track_activity');
         if (!$check) {
+            Schema::defaultStringLength(191);
             Schema::create('sms_provider_track_activity', function (Blueprint $table) {
                 $table->increments('id');
 
