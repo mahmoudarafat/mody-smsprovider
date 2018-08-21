@@ -49,7 +49,11 @@
   ```php
   'SMSProvider' => mody\smsprovider\Facades\SMSProvider::class,
 ```
-#### 2. config/smsgatewayConfig.php
+
+#### 2. publish assets 
+	php artisan vendor:publish --provider=mody\smsprovider\SMSGatewayServiceProvider
+
+#### 3. config/smsgatewayConfig.php
 
 choose your plan [individual user or group of users]
     
@@ -58,9 +62,6 @@ choose your plan [individual user or group of users]
 choose if you want to track package activity
     
     'track' => true
-
-#### 3. publish assets 
-	php artisan vendor:publish --provider=mody\smsprovider\SMSGatewayServiceProvider
 
 #### 4. go to ` new provider setup view as a start ` 
 
