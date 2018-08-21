@@ -6,32 +6,51 @@
 #Under Construction
 
 ### Installation
-     ` composer require mody/smsprovider:dev-master `
+      composer require mody/smsprovider:dev-master 
 
 
-### after installation, do this:
+## after installation, do this:
 
-## config/app.php
-  #1. service provider 
+#### config/app.php
+  #####1. service provider 
 ``` php
   mody\smsprovider\SMSGatewayServiceProvider::class,
 ```
-  ##2. alias
+  #####2. alias
   ```php
   'SMSProvider' => mody\smsprovider\Facades\SMSProvider::class,
 ```
-## 	config/smsgatewayConfig.php
-	  --> choose your plan [individual user or group of users]
+## config/smsgatewayConfig.php
+
+choose your plan [individual user or group of users]
     ```php
     'plan' => 'user'
     ```
-    --> choose if you want to track package activity
+choose if you want to track package activity
     
     ```php
     'track' => true
     ```
-
------------------------------------------------------------------------------
+    
+#Features:
+ ```
+ 1. you can add one or more sms provider/gateway to your account/group.
+ 2. choose your default sms provider/gateway to send through it.
+ 3. simple view for your account/group sms providers/gateways.
+ 4. simple view for your account/group trash.
+ 5. configuration changing over the recorded providers/gateways.
+ 6. can move items to trash or destroy it for good.
+ 7. can recover trashed items.
+ 8. simple view for adding/updating any provider data.
+ 9. send sms to single number or group of numbers.
+ 10. simple view for messages sent/failed for account/group/provider. 
+ 11. call collection of providers/gateways.
+ 12. call collection of trashed providers/gateways.
+ 13. simple view for track activity.
+ 14. add template messages.
+ 15. send template messages.
+ ```
+# How to use SMSProvider:
 
 return new provider setup view:
 	SMSProvider::configProvider();
