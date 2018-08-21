@@ -2,7 +2,7 @@
 
 if (!function_exists('get_url')) {
 
-     function get_url()
+     function get_url($url)
      {
 
 		$u = url($url);
