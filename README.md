@@ -48,7 +48,7 @@
   ```php
   'SMSProvider' => mody\smsprovider\Facades\SMSProvider::class,
 ```
-## config/smsgatewayConfig.php
+#### config/smsgatewayConfig.php
 
 choose your plan [individual user or group of users]
     
@@ -58,6 +58,8 @@ choose if you want to track package activity
     
     'track' => true
     
+####  go to ` new provider setup view as a start ` 
+
 # Features:
  ```
  1. you can add one or more sms provider/gateway to your account/group.
