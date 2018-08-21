@@ -30,7 +30,7 @@ choose if you want to track package activity
     
     'track' => true
     
-#Features:
+# Features:
  ```
  1. you can add one or more sms provider/gateway to your account/group.
  2. choose your default sms provider/gateway to send through it.
