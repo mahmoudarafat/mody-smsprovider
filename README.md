@@ -52,9 +52,10 @@ choose if you want to track package activity
 
 return new provider setup view:
     Note: You can use it to return view in new url
-	```php
+	
+```php
 	SMSProvider::configProvider();
-	```
+```
 	
 send new sms to number or multiple numbers "xxxxx,zzzzzz,yyyyyy"
 	```php
