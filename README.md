@@ -32,6 +32,7 @@
      *      ]
      */
 
+----------------------------------------------------------------------
 
 ### Installation
       composer require mody/smsprovider:dev-master 
@@ -39,16 +40,16 @@
 
 ## after installation, do this:
 
-#### config/app.php
-  ##1. service provider 
+#### 1. config/app.php
+  a. service provider 
 ``` php
   mody\smsprovider\SMSGatewayServiceProvider::class,
 ```
-  ##2. alias
+  b. alias
   ```php
   'SMSProvider' => mody\smsprovider\Facades\SMSProvider::class,
 ```
-#### config/smsgatewayConfig.php
+#### 2. config/smsgatewayConfig.php
 
 choose your plan [individual user or group of users]
     
@@ -58,7 +59,9 @@ choose if you want to track package activity
     
     'track' => true
     
-####  go to ` new provider setup view as a start ` 
+#### 3. go to ` new provider setup view as a start ` 
+
+--------------------------------------------------------------------------
 
 # Features:
  ```
@@ -78,13 +81,16 @@ choose if you want to track package activity
  14. add template messages.
  15. send template messages.
  ```
- 
+
+------------------------------------------------------------------------------
  
 ### Very important: 	`use this session with group plan`
 	
 ```php
 session()->put('group_id', $group_id);
 ```
+ 
+ -----------------------------------------------------------------------------
  
 # How to use SMSProvider:
 
@@ -199,3 +205,4 @@ return view for group =>
 	url('smsprovider/group-trashed-providers');
 ```
 		
+-------------------------------------------------------------------------------
