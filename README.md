@@ -54,7 +54,11 @@
 	php artisan config:cache
 
 #### 3. publish assets 
-	php artisan vendor:publish --provider=mody\smsprovider\SMSGatewayServiceProvider
+	php artisan vendor:publish
+	
+and you may see options, choose this one:
+	
+	Provider: mody\smsprovider\SMSGatewayServiceProvider
 
 #### 4. config/smsgatewayConfig.php
 
