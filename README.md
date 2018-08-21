@@ -60,7 +60,7 @@ choose if you want to track package activity
     'track' => true
 
 #### 3. publish assets 
-	php artisan vendor:publish 
+	php artisan vendor:publish --provider=mody\smsprovider\SMSGatewayServiceProvider
 
 #### 4. go to ` new provider setup view as a start ` 
 
