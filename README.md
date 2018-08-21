@@ -3,7 +3,7 @@
 
 #Laravel Multiple sms provider gateway package
 
-# Under Construction
+# Package is still Under Construction
 
 ## Introduction
 
