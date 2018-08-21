@@ -12,25 +12,23 @@
 ## after installation, do this:
 
 #### config/app.php
-  #####1. service provider 
+  ##1. service provider 
 ``` php
   mody\smsprovider\SMSGatewayServiceProvider::class,
 ```
-  #####2. alias
+  ##2. alias
   ```php
   'SMSProvider' => mody\smsprovider\Facades\SMSProvider::class,
 ```
 ## config/smsgatewayConfig.php
 
 choose your plan [individual user or group of users]
-    ```php
+    
     'plan' => 'user'
-    ```
+    
 choose if you want to track package activity
     
-    ```php
     'track' => true
-    ```
     
 #Features:
  ```
@@ -53,68 +51,82 @@ choose if you want to track package activity
 # How to use SMSProvider:
 
 return new provider setup view:
+    Note: You can use it to return view in new url
+	```php
 	SMSProvider::configProvider();
-
------------------------------------------------------------------------------
-
+	```
+	
 send new sms to number or multiple numbers "xxxxx,zzzzzz,yyyyyy"
+	```php
 	SMSProvider::sendSMS($message, $numbers);
+	```
 	Example:
-		SMSProvider::sendSMS('hi, Mahmoud', '201065825376');
-		SMSProvider::sendSMS('hi, group member', '201065825376,01004456235');
-
-------------------------------------------------------------------------------
-
+	
+	``` php	
+		SMSProvider::sendSMS('hi, Mahmoud', '20106xxxxxxx');
+	
+		SMSProvider::sendSMS('hi, group member', '20106xxxxxxx,0120xxxxxxx,20111xxxxxxx');
+	```
+		
 return only your providers view [even if you are in group]
 	get plans you've configured
+	``` php
 		SMSProvider::myProviders();
-
-------------------------------------------------------------------------------
-
-return group plan view
+	```
+	return group plan view
+	
+	```php
 	SMSProvider::groupProviders();
-
-------------------------------------------------------------------------------
-
+	```
 return a single provider configuartion view/edit view
+	```php
 	SMSProvider::updateProvider($provider_id);
-
-------------------------------------------------------------------------------
-
-remove provider from usage list [soft delete]  
+	```
+	
+move provider to trash [soft delete]  
+	```php
 	SMSProvider::deleteProvider($provider_id');
-
-------------------------------------------------------------------------------
-
+	```
+	
 destroy provider [becareful, deleting provider means that you will lose {configs, messages, ...}]
+	```php
 	SMSProvider::destroyProvider($provider_id');
-
-------------------------------------------------------------------------------
+	```
 
 set default provider
+	```php
 	SMSProvider::setDefaultProvider($provider_id);
-
-------------------------------------------------------------------------------
-
+	```
+	
 recover deleted provider
+	```php
 	SMSProvider::recoverProvider($provider_id);
-
-------------------------------------------------------------------------------
-
+	```
+	
 get trashed providers 
 	return collection for auth user => 
+		```php
 		SMSProvider::myTrashedProviders();
+		```
 	return collection for group => 
+		```php
 		SMSProvider::groupTrashedProviders();
+		```
 	return view for auth user => 
-		SMSProvider::myTrashedProvidersView();  
+		```php
+		SMSProvider::myTrashedProvidersView();
+		```
 	return view for group => 
+		```php
 		SMSProvider::groupTrashedProvidersView();
-
--------------------------------------------------------------------------------
-
+		```
+		
 remove default provider 
+	```php
 	SMSProvider::removeDefaultProvider();
-
-------------------------------------------------------------
--------------------
+	```
+		
+set default provider 
+	```php
+	SMSProvider::removeDefaultProvider($provider_id);
+	```
