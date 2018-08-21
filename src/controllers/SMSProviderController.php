@@ -128,13 +128,6 @@ class SMSProviderController extends Controller
             `;
 
         try {
-
-            $this->configProviderTable();
-            $this->configAdditionalParams();
-            $this->configMessagesTable();
-            $this->configSavedMessages();
-            $this->configTrackMessages();
-
             $this->validateRequest($request);
 
             DB::transaction(function () use ($request) {
