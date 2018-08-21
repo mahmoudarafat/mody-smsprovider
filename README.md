@@ -70,7 +70,9 @@ choose if you want to track package activity
     
     'track' => true
 
-#### 5. go to ` new provider setup view as a start ` 
+#### 5. run this command to generate necessary tables
+
+	php artisan smsprovider:tables
 
 --------------------------------------------------------------------------
 
