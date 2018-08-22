@@ -18,7 +18,6 @@ class SMSProviderController extends Controller
 
     public function index()
     {
-        session()->put('group_id', 2);
         return view('smsprovider::setup');
     }
 
@@ -201,16 +200,19 @@ class SMSProviderController extends Controller
         if ($xx) {
             $code = $xx[0];
             if (strpos($code, $success_code) !== false) {
-                $respo = 'sent successfully';
+//                $respo = 'sent successfully';
+                $respo = '1';
                 $status = true;
             } else {
                 $status = false;
-                $respo = 'fail with code: ' . $code;
+//                $respo = 'fail with code: ' . $code;
+                $respo = '0: ' . $code;
             }
         } else {
             $status = false;
             $code = 'NAN';
-            $respo = 'no response';
+//            $respo = 'no response';
+            $respo = '2';
         }
 
         $tr = $this->trackArray();
@@ -313,14 +315,14 @@ class SMSProviderController extends Controller
     public function trackArray()
     {
         $tr = [
-            '0' => 'sending message', ###
+            '0' => 'sending message',
             '1' => 'new provider setup',
             '2' => 'update provider setup',
-            '3' => 'soft delete provider',  ###
-            '4' => 'destroy provider', ###
-            '5' => 'set default', ###
-            '6' => 'remove default', ###
-            '7' => 'restore provider', ###
+            '3' => 'soft delete provider',
+            '4' => 'destroy provider',
+            '5' => 'set default',
+            '6' => 'remove default',
+            '7' => 'restore provider',
         ];
         return $tr;
     }
