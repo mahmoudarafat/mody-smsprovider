@@ -65,4 +65,10 @@ return [
     'confirm_destroy' => 'Do you realy want to destroy this provider and all relative data including SMSs?',
 
 
+    'user' => 'User',
+    'details' => 'Details',
+    'date' => 'Date',
+    'track_group_title' => 'Track Group\'s users\' activities',
+
+
 ];
