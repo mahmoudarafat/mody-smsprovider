@@ -393,6 +393,24 @@ class SMSProviderController extends Controller
         return view('smsprovider::track-group', compact('track'));
     }
 
+    public function myTrack()
+    {
+        if (auth()->check()) {
+            $track = Track::where('user_id', auth()->user()->id)
+                ->orderBy('created_at', 'DESC')
+                ->paginate(20);
+            return $track;
+        } else {
+            return collect();
+        }
+    }
+
+    public function myTrackView()
+    {
+        $track = $this->myTrack();
+        return view('smsprovider::track-group', compact('track'));
+    }
+
 
 
 
