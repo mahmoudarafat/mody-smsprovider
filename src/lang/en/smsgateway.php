@@ -55,5 +55,5 @@ return [
     'destroy_success' => 'provider is destroyed successfully',
     'destroy_error' => 'Error happened while detroying the provider',
 
-
+'empty_info' => 'No data to be displayed'
 ];
