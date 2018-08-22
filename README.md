@@ -1,7 +1,4 @@
-# mody-smsgateway
-
-
-#Laravel Multiple sms provider gateway package
+## mody-smsgateway - Laravel Multiple sms provider gateway package
 
 # Package is still Under Construction
 
@@ -91,7 +88,7 @@ choose if you want to track package activity
  11. call collection of providers/gateways.
  12. call collection of trashed providers/gateways.
  13. simple view for track activity.
- 14. add template messages.
+ 14. add/edit template messages.
  15. send template messages.
  ```
 
@@ -109,7 +106,7 @@ session()->put('group_id', $group_id);
 # How to use SMSProvider:
 
 return new provider setup view:
-    Note: You can use it to return view in new url
+    Note: You can use it to return view in new url or use this given one.
 	
 ```php
 	SMSProvider::configProvider();
@@ -129,7 +126,13 @@ Example
 	
 		SMSProvider::sendSMS('hi, group member', '20106xxxxxxx,0120xxxxxxx,20111xxxxxxx');
 		
-return a single provider configuartion view/edit view
+*** expected response ***
+	
+	'0: error_code' => 'sending failed, and error code is given',
+	       '1'      => 'messege delivered successfully',
+	       '2'      => 'no response from destination or connection error'
+
+return a single provider configuartion view/edit *view*
 ```php
 	SMSProvider::updateProvider($provider_id);
 ```
@@ -138,42 +141,68 @@ move provider to trash [soft delete]
 ```php
 	SMSProvider::deleteProvider($provider_id');
 ```
-	
+*** expected response ***	
+
+	true or false
+
 destroy provider [becareful, deleting provider means that you will lose {configs, messages, ...}]
 ```php
 	SMSProvider::destroyProvider($provider_id');
 ```
 
+*** expected response ***	
+
+	true or false
+
 set default provider
 ```php
 	SMSProvider::setDefaultProvider($provider_id);
 ```
+
+*** expected response ***	
+
+	true or false
 	
 recover deleted provider
 ```php
 	SMSProvider::recoverProvider($provider_id);
 ```
+
+*** expected response ***	
+
+	true or false
+
+
 remove default provider 
 ```php
 	SMSProvider::removeDefaultProvider();
 ```
+
+*** expected response ***	
+
+	true or false
 		
 set default provider 
 ```php
 	SMSProvider::removeDefaultProvider($provider_id);
 ```
 
+*** expected response ***	
 
-## get providers 
-return collection for auth user => 
+	true or false
+
+
+### get providers => [20/page]
+******return collection for auth user******
 ```php
 	SMSProvider::myProviders();
 ```
-return collection for group => 
+
+******return collection for group****** 
 ```php
 	SMSProvider::groupProviders();
 ```
-return view for auth user => 
+******return view for auth user****** 
 ```php
 	SMSProvider::myProvidersView();
 	
@@ -182,7 +211,7 @@ return view for auth user =>
 	url('smsprovider/user-providers');
 ```
 	
-return view for group => 
+******return view for group******
 ```php
 	SMSProvider::groupProvidersView();
 		
@@ -192,16 +221,16 @@ return view for group =>
 ```
 	
 
-## get trashed providers 
-return collection for auth user => 
+## get trashed providers 20/page 
+******return collection for auth user****** 
 ```php
 	SMSProvider::myTrashedProviders();
 ```
-return collection for group => 
+******return collection for group******
 ```php
 	SMSProvider::groupTrashedProviders();
 ```
-return view for auth user => 
+******return view for auth user******
 ```php
 	SMSProvider::myTrashedProvidersView();
 	
@@ -210,7 +239,7 @@ return view for auth user =>
 	url('smsprovider/user-trashed-providers');
 ```
 	
-return view for group => 
+******return view for group******
 ```php
 	SMSProvider::groupTrashedProvidersView();
 		
