@@ -10,6 +10,8 @@
                 <h1 class="pager text-primary">{{ $title ?? '' }}</h1>
                 <hr>
             </div>
+
+            @if($trytwo->count() > 0)
             <div class="col-md-10 col-md-offset-1">
 
                 <table class="table table-bordered table-hover">
@@ -22,63 +24,69 @@
                     </tr>
                     </thead>
                     <tbody id="table-body">
-                    @foreach($trytwo->chunk(20) as $item_ch)
-                        @foreach($item_ch as $item)
-                            <tr id="itemrow-{{ $item->id }}">
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->company_name }}</td>
-                                <td>{{ $item->api_url }}</td>
-                                <td>
-                                    <div class="loader" style="display: none;" id="load-{{ $item->id }}"></div>
-                                    <div class="btn-group">
 
-                                        @if($item->trashed())
-                                            <button class="btn btn-warning" onclick="recover({{ $item->id }})"
-                                                    type="button">
-                                                {{ trans('smsprovider::smsgateway.recover') }}
-                                            </button>
-                                        @else
-                                            @if($item->isDefault())
-                                                <button class="btn btn-primary default_pro"
-                                                        style="background: #d5da71;border: #d5da71; color:#0b031d;"
-                                                        data-id="{{ $item->id }}" type="button"
-                                                        id="def-{{ $item->id }}">
-                                                    {{ trans('smsprovider::smsgateway.removeDefault') }}
+
+                        @foreach($trytwo->chunk(20) as $item_ch)
+                            @foreach($item_ch as $item)
+                                <tr id="itemrow-{{ $item->id }}">
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->company_name }}</td>
+                                    <td>{{ $item->api_url }}</td>
+                                    <td>
+                                        <div class="loader" style="display: none;" id="load-{{ $item->id }}"></div>
+                                        <div class="btn-group">
+
+                                            @if($item->trashed())
+                                                <button class="btn btn-warning" onclick="recover({{ $item->id }})"
+                                                        type="button">
+                                                    {{ trans('smsprovider::smsgateway.recover') }}
                                                 </button>
                                             @else
-                                                <button class="btn btn-primary set_def" id="set-def-{{ $item->id }}"
-                                                        data-id="{{ $item->id }}" type="button">
-                                                    {{ trans('smsprovider::smsgateway.setDefault') }}
+                                                @if($item->isDefault())
+                                                    <button class="btn btn-primary default_pro"
+                                                            style="background: #d5da71;border: #d5da71; color:#0b031d;"
+                                                            data-id="{{ $item->id }}" type="button"
+                                                            id="def-{{ $item->id }}">
+                                                        {{ trans('smsprovider::smsgateway.removeDefault') }}
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-primary set_def" id="set-def-{{ $item->id }}"
+                                                            data-id="{{ $item->id }}" type="button">
+                                                        {{ trans('smsprovider::smsgateway.setDefault') }}
+                                                    </button>
+                                                @endif
+                                                <a class="btn btn-info"
+                                                   href="{{ route('smsprovider.providers.edit_provider', $item->id) }}">
+                                                    {{ trans('smsprovider::smsgateway.edit') }}
+                                                </a>
+
+                                                <button class="btn btn-warning" onclick="softDelete({{ $item->id }})"
+                                                        type="button">
+                                                    {{ trans('smsprovider::smsgateway.trash') }}
+                                                </button>
+
+                                                <button class="btn btn-default" style="background: #da0000;color:#eee;"
+                                                        onclick="destroy({{ $item->id }})" type="button">
+                                                    {{ trans('smsprovider::smsgateway.delete') }}
                                                 </button>
                                             @endif
-                                            <a class="btn btn-info"
-                                               href="{{ route('smsprovider.providers.edit_provider', $item->id) }}">
-                                                {{ trans('smsprovider::smsgateway.edit') }}
-                                            </a>
+                                        </div>
 
-                                            <button class="btn btn-warning" onclick="softDelete({{ $item->id }})" type="button">
-                                                {{ trans('smsprovider::smsgateway.trash') }}
-                                            </button>
-
-                                            <button class="btn btn-default" style="background: #da0000;color:#eee;"
-                                                    onclick="destroy({{ $item->id }})" type="button">
-                                                {{ trans('smsprovider::smsgateway.delete') }}
-                                            </button>
-                                        @endif
-                                    </div>
-
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endforeach
-                    @endforeach
-
                     </tbody>
                 </table>
 
                 <div class="text-center">
                     {!! $trytwo->links() !!}
                 </div>
+
             </div>
+            @else
+                <h3 class="text-muted text-center">{{ trans('smsprovider::smsgateway.empty_info') }}</h3>
+            @endif
 
         </div>
     </div>
