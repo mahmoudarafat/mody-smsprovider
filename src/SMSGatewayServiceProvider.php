@@ -28,7 +28,7 @@ class SMSGatewayServiceProvider extends ServiceProvider
 
 		if(! file_exists(base_path('config/smsgatewayConfig.php')))
 		{
-			$this->publishes([ __DIR__.'/config/smsgatewayConfig.php' => base_path('config')]);
+			$this->publishes([ __DIR__.'/config' => base_path('config')]);
 		}
         if ($this->app->runningInConsole()) {
             $this->commands([
