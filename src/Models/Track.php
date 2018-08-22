@@ -13,4 +13,18 @@ class Track extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function user()
+    {
+        $auth = config('smsgatewayConfig.user_model_namespace');
+        return $this->belongsTo($auth);
+    }
+
+    public function getUser()
+    {
+        $name = config('smsgatewayConfig.username');
+        $user = $this->user;
+        $username = $user->$name ?? 'NAN';
+        return $username;
+    }
+
 }
