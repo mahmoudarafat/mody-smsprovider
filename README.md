@@ -67,6 +67,16 @@ choose if you want to track package activity
     
     'track' => true
 
+
+add username [auth userame column]
+    
+    'username' => 'mahmoud'
+    
+add auth model
+    
+    'user_model_namespace' => 'App\User'
+
+
 #### 5. run this command to generate necessary tables
 
 	php artisan smsprovider:tables
@@ -250,3 +260,30 @@ set default provider
 ```
 		
 -------------------------------------------------------------------------------
+
+## track activity
+
+******auth user track [20/page]******
+```php
+	SMSProvider::track();
+	
+	SMSProvider::trackView();
+	
+	route('smsprovider.providers.user-track');
+	
+	url('smsprovider.user-track');
+```
+******group track [20/page]******
+```php
+	SMSProvider::groupTrack();
+	
+	SMSProvider::groupTrackView();
+	
+	route('smsprovider.providers.group-track');
+	
+	url('smsprovider.group-track');
+```
+-------------------------------------------------------------------------------
+	
+	
+	
