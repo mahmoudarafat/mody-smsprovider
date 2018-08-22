@@ -19,6 +19,11 @@ $route =
 
             Route::post('update_setup', $SMSProvider . '@updateProviderSetup')->name('update_setup');
 
+            Route::get('user-track', $SMSProvider . '@trackView')->name('user-track');
+
+            Route::get('group-track', $SMSProvider . '@groupTrackView')->name('group-track');
+
+            
             Route::group([
                 'prefix' => 'ajax',
                 'as' => 'ajax.'
