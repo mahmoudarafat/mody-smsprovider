@@ -376,6 +376,24 @@ class SMSProviderController extends Controller
         $msg->save();
         return $msg->id;
 
+
     }
+
+    public function myGroupTrack()
+    {
+        $track = Track::where('group_id', session('group_id'))
+            ->orderBy('created_at', 'DESC')
+            ->paginate(20);
+        return $track;
+    }
+
+    public function myGroupTrackView()
+    {
+        $track = $this->myGroupTrack();
+        return view('smsprovider::track-group', compact('track'));
+    }
+
+
+
 
 }
