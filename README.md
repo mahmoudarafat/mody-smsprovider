@@ -18,6 +18,9 @@
      *  when calling your SMSProvider::configProvider() method,
      *      you will need this session to be set: session()->put('group_id', $group_id);
      *
+     * username is your name columns to be displayed.
+     * if track is true, activities will be saved in sms_provider_track_activity table.
+     * user_model_namespace is your auth model. used in relationship with track table.
      *
      * package will create five tables .
      *      [
