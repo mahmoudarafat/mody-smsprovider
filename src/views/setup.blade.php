@@ -14,42 +14,43 @@
                 <form action="{{ route('smsprovider.providers.submit_setup') }}" method="post">
                     <input name="_token" value="{{ csrf_token() }}" type="hidden">
                     {{--{!! csrf_field() !!}--}}
-                    <h2 class="title-page">{{ trans('smsprovider::smsgateway.account_settings') }}</h2>
+                    {{--<h2 class="title-page">{{ trans('smsprovider::smsgateway.account_settings') }}</h2>--}}
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="username_column">{{ trans('smsprovider::smsgateway.username_column') }}</label>
-                                <input type="text" name="username_column" id="username_column" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="username_value">{{ trans('smsprovider::smsgateway.username_value') }}</label>
-                                <input type="text" name="username_value" id="username_value" class="form-control">
-                            </div>
-                        </div>
-                    </div>
+                    {{--<div class="row">--}}
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="form-group">--}}
+                                {{--<label for="username_column">{{ trans('smsprovider::smsgateway.username_column') }}</label>--}}
+                                {{--<input type="text" name="username_column" id="username_column" class="form-control">--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="form-group">--}}
+                                {{--<label for="username_value">{{ trans('smsprovider::smsgateway.username_value') }}</label>--}}
+                                {{--<input type="text" name="username_value" id="username_value" class="form-control">--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="api_password_column">{{ trans('smsprovider::smsgateway.password_column') }}</label>
-                                <input type="text" name="api_password_column" id="api_password_column"
-                                       class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                    {{--<div class="row">--}}
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="form-group">--}}
+                                {{--<label for="api_password_column">{{ trans('smsprovider::smsgateway.password_column') }}</label>--}}
+                                {{--<input type="text" name="api_password_column" id="api_password_column"--}}
+                                       {{--class="form-control">--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-md-6">--}}
 
-                            <div class="form-group">
-                                <label for="api_password_value">{{ trans('smsprovider::smsgateway.password_value') }}</label>
-                                <input type="password" name="api_password_value" id="api_password_value"
-                                       class="form-control">
-                            </div>
-                        </div>
-                    </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label for="api_password_value">{{ trans('smsprovider::smsgateway.password_value') }}</label>--}}
+                                {{--<input type="password" name="api_password_value" id="api_password_value"--}}
+                                       {{--class="form-control">--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <hr>
+                    {{--<hr>--}}
+
                     <h2 class="title-page">{{ trans('smsprovider::smsgateway.api_settings') }}</h2>
 
                     <div class="form-group">

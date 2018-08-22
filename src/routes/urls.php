@@ -10,9 +10,9 @@ $route =
     ],
         function () use ($SMSProvider, $SMSProviderAjaxController) {
             Route::get('setup', $SMSProvider . '@configProvider');
-            Route::get('user-providers', $SMSProvider . '@myProvidersView')->name('auth_index');
+            Route::get('user-providers', $SMSProvider . '@myProvidersView')->name('user-providers');
             Route::get('user-trashed-providers', $SMSProvider . '@myTrashedProvidersView');
-            Route::get('group-providers', $SMSProvider . '@groupProvidersView');
+            Route::get('group-providers', $SMSProvider . '@groupProvidersView')->name('group-providers');
             Route::get('group-trashed-providers', $SMSProvider . '@groupTrashedProvidersView');
             Route::get('edit-provider/{provider_id}', $SMSProvider . '@editProvider')->name('edit_provider');
             Route::post('submit_setup', $SMSProvider . '@submitProviderSetup')->name('submit_setup');

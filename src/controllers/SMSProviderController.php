@@ -24,7 +24,19 @@ class SMSProviderController extends Controller
     public function editProviderConfig($provider_id)
     {
         $provider = Provider::findOrFail($provider_id);
-        return view('smsprovider::edit-provider', compact('provider'));
+        $data = [];
+
+        $params = $provider->params;
+
+        foreach ($params as $param){
+            $arr = [];
+            $arr['key'] = $param->parameter;
+            $arr['value'] = $param->value;
+
+            $data[] = $arr;
+        }
+
+        return view('smsprovider::edit-provider', compact('provider', 'data'));
     }
 
     public function authProviders()
@@ -141,11 +153,6 @@ class SMSProviderController extends Controller
     public function submitSetup(Request $request)
     {
 
-        `check if tables exists or create them
-            providers table, provider parameters, messges table, template messages table
-
-            `;
-
         try {
             $this->validateRequest($request);
 
@@ -158,10 +165,10 @@ class SMSProviderController extends Controller
                 $names = $request->api_add_name ?? [];
                 $values = $request->api_add_value ?? [];
 
-                array_push($names, $request->username_column);
-                array_push($values, $request->username_value);
-                array_push($names, $request->api_password_column);
-                array_push($values, $request->api_password_value);
+//                array_push($names, $request->username_column);
+//                array_push($values, $request->username_value);
+//                array_push($names, $request->api_password_column);
+//                array_push($values, $request->api_password_value);
 
                 `Store provider parameters`;
                 $this->storeAdditionalParams($provider->id, $names, $values);
@@ -172,9 +179,71 @@ class SMSProviderController extends Controller
 
             });
 
-            return redirect()->route('smsprovider.providers.auth_index')->with([
-                'success' => trans('smsprovider::smsgateway.saved')
+            $plan = $this->getUserPlan();
+
+            if($plan == 'user')
+            {
+                return redirect()->route('smsprovider.providers.user-providers')->with([
+                    'success' => trans('smsprovider::smsgateway.saved')
+                ]);
+            }else{
+                return redirect()->route('smsprovider.providers.group-providers')->with([
+                    'success' => trans('smsprovider::smsgateway.saved')
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with([
+                'error' => trans('smsprovider::smsgateway.error')
             ]);
+        }
+    }
+
+    public function submitUpdate(Request $request)
+    {
+
+        try {
+            $this->validateRequest($request);
+
+            DB::transaction(function () use ($request) {
+
+                `Save the provider data in providers table`;
+                $provider = $this->updateProvider($request);
+
+                `config parameters`;
+                $names = $request->api_add_name ?? [];
+                $values = $request->api_add_value ?? [];
+
+//                array_push($names, $request->username_column);
+//                array_push($values, $request->username_value);
+//                array_push($names, $request->api_password_column);
+//                array_push($values, $request->api_password_value);
+
+                $provider->params()->forceDelete();
+
+                `Store provider parameters`;
+                $this->storeAdditionalParams($provider->id, $names, $values);
+
+                $tr = $this->trackArray();
+                $description = 'provider ' . $provider->company_name . ' [' . $provider->id . '] is updated';
+                $this->recordTrack($tr['2'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+
+            });
+
+
+            $plan = $this->getUserPlan();
+
+            if($plan == 'user')
+            {
+                return redirect()->route('smsprovider.providers.user-providers')->with([
+                    'success' => trans('smsprovider::smsgateway.saved')
+                ]);
+            }else{
+                return redirect()->route('smsprovider.providers.group-providers')->with([
+                    'success' => trans('smsprovider::smsgateway.saved')
+                ]);
+            }
+            
         } catch (\Exception $e) {
             return redirect()->back()->with([
                 'error' => trans('smsprovider::smsgateway.error')
@@ -410,8 +479,5 @@ class SMSProviderController extends Controller
         $track = $this->myTrack();
         return view('smsprovider::track-group', compact('track'));
     }
-
-
-
 
 }

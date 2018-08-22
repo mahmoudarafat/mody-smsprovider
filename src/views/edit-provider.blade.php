@@ -7,7 +7,8 @@
         <div class="row">
 
             <div class="col-md-12">
-                <h1 class="pager text-primary"><u class="text-muted">{{ $provider->company_name }}</u> {{ trans('smsprovider::smsgateway.config_title') }}</h1>
+                <h1 class="pager text-primary"> {{ trans('smsprovider::smsgateway.config_title') }} [<u
+                            class="text-muted" style="display: inline-block;">{{ $provider->company_name }}</u>]</h1>
                 <hr>
             </div>
             <div class="col-md-10 col-md-offset-1">
@@ -19,12 +20,14 @@
 
                     <div class="form-group">
                         <label for="api_company">{{ trans('smsprovider::smsgateway.api_company') }}</label>
-                        <input type="text" name="api_company" value="{{ $provider->company_name }}" id="api_company" class="form-control">
+                        <input type="text" name="api_company" value="{{ $provider->company_name }}" id="api_company"
+                               class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="api_url">{{ trans('smsprovider::smsgateway.api_url') }}</label>
-                        <input type="text" name="api_url" value="{{ $provider->api_url }}" id="api_url" class="form-control">
+                        <input type="text" name="api_url" value="{{ $provider->api_url }}" id="api_url"
+                               class="form-control">
                     </div>
 
                     <div class="form-group">
@@ -40,17 +43,20 @@
 
                     <div class="form-group">
                         <label for="api_destination">{{ trans('smsprovider::smsgateway.destination_attr') }}</label>
-                        <input type="text" value="{{ $provider->destination_attr }}" name="api_destination" id="api_destination" class="form-control">
+                        <input type="text" value="{{ $provider->destination_attr }}" name="api_destination"
+                               id="api_destination" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="api_message">{{ trans('smsprovider::smsgateway.message_attr') }}</label>
-                        <input type="text" value="{{ $provider->message_attr }}" name="api_message" id="api_message" class="form-control">
+                        <input type="text" value="{{ $provider->message_attr }}" name="api_message" id="api_message"
+                               class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="api_success_code">{{ trans('smsprovider::smsgateway.success_code') }}</label>
-                        <input type="text" value="{{ $provider->success_code }}" name="api_success_code" id="api_success_code" class="form-control">
+                        <input type="text" value="{{ $provider->success_code }}" name="api_success_code"
+                               id="api_success_code" class="form-control">
                     </div>
 
                     <div class="form-inline">
@@ -72,77 +78,31 @@
                         </div>
                         <div id="additional_inputs">
 
+                            @foreach($data as $array)
+                                <div class="col-md-7 col-md-offset-1" style="margin-bottom: 1em;">
+                                    <div class="row" id="add_raw_{{ $array['key'].$array['value'] }}">
+                                        <div class="col-md-5">
+                                            <div class="form-inline">
+                                                <label>{{ trans('smsprovider::smsgateway.parameter') }}</label>
+                                                <input type="text" name="api_add_name[]" value="{{ $array['key'] }}" class="form-control add_name">
+                                            </div>
 
-
-
-                            <h2 class="title-page">{{ trans('smsprovider::smsgateway.account_settings') }}</h2>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="username_column">{{ trans('smsprovider::smsgateway.username_column') }}</label>
-                                        <input type="text" name="username_column" id="username_column" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="username_value">{{ trans('smsprovider::smsgateway.username_value') }}</label>
-                                        <input type="text" name="username_value" id="username_value" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="api_password_column">{{ trans('smsprovider::smsgateway.password_column') }}</label>
-                                        <input type="text" name="api_password_column" id="api_password_column"
-                                               class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-
-                                    <div class="form-group">
-                                        <label for="api_password_value">{{ trans('smsprovider::smsgateway.password_value') }}</label>
-                                        <input type="password" name="api_password_value" id="api_password_value"
-                                               class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr>
-
-
-
-
-
-
-
-
-
-
-                            <div class="col-md-7 col-md-offset-1" style="margin-bottom: 1em;">
-                                <div class="row" id="add_raw_mody">
-                                    <div class="col-md-5">
-                                        <div class="form-inline">
-                                            <label>{{ trans('smsprovider::smsgateway.parameter') }}</label>
-                                            <input type="text" name="api_add_name[]" class="form-control add_name">
                                         </div>
-
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="form-inline">
-                                            <label>{{ trans('smsprovider::smsgateway.value') }}</label>
-                                            <input type="text" name="api_add_value[]" class="form-control add_value">
+                                        <div class="col-md-5">
+                                            <div class="form-inline">
+                                                <label>{{ trans('smsprovider::smsgateway.value') }}</label>
+                                                <input type="text" name="api_add_value[]" value="{{ $array['value'] }}"
+                                                       class="form-control add_value">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a style="margin-top:1.7em;" href="javascript:void(0)"
+                                               class="btn btn-danger delete_add_raw" data-id="{{ $array['key'].$array['value'] }}">
+                                                {{ trans('smsprovider::smsgateway.delete') }}</a>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <a style="margin-top:1.7em;" href="javascript:void(0)"
-                                           class="btn btn-danger delete_add_raw" data-id="mody">
-                                            {{ trans('smsprovider::smsgateway.delete') }}</a>
-                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
 
                     </div>

@@ -27,17 +27,33 @@ trait ProviderConfig
         return $provider;
     }
 
+    protected function updateProvider($request)
+    {
+        $provider = Provider::findOrFail($request->provider_id);
+        $provider->company_name = $request->api_company;
+        $provider->api_url = $request->api_url;
+        $provider->destination_attr = $request->api_destination;
+        $provider->message_attr = $request->api_message;
+        $provider->success_code = $request->api_success_code;
+        $provider->unicode = $request->api_unicode ? 1 : 0;
+        $provider->http_method = $request->api_method;
+        $provider->save();
+        return $provider;
+    }
+
     protected function storeAdditionalParams($provider_id, $names, $values)
     {
 
-        foreach($names as $key => $name) {
-            $params = new ProviderParameter();
-            $params->parameter = $name;
-            $params->value = $values[$key];
-            $params->group_id = session('group_id');
-            $params->user_id = auth()->user() ? auth()->user()->id : null;
-            $params->sms_provider_id = $provider_id;
-            $params->save();
+        foreach ($names as $key => $name) {
+            if (!in_array($name, ['', null])) {
+                $params = new ProviderParameter();
+                $params->parameter = $name;
+                $params->value = $values[$key];
+                $params->group_id = session('group_id');
+                $params->user_id = auth()->user() ? auth()->user()->id : null;
+                $params->sms_provider_id = $provider_id;
+                $params->save();
+            }
         }
     }
 
@@ -47,7 +63,8 @@ trait ProviderConfig
             'api_username' => 'string',
             'api_password' => 'string',
             'api_company' => 'required',
-            'api_url' => 'required|unique:sms_providers,api_url',
+//            'api_url' => 'required|unique:sms_providers,api_url',
+            'api_url' => 'required',
             'api_method' => 'required',
             'api_destination' => 'required',
             'api_message' => 'required',
@@ -60,7 +77,7 @@ trait ProviderConfig
             'api_password' => '',
             'api_company.required' => trans('smsprovider::smsgateway.attributes.company_name'),
             'api_url.required' => trans('smsprovider::smsgateway.attributes.url_required'),
-            'api_url.unique' => trans('smsprovider::smsgateway.attributes.url_unique'),
+//            'api_url.unique' => trans('smsprovider::smsgateway.attributes.url_unique'),
             'api_method.required' => trans('smsprovider::smsgateway.attributes.http_method'),
             'api_destination.required' => trans('smsprovider::smsgateway.attributes.destination_attr'),
             'api_message.required' => trans('smsprovider::smsgateway.attributes.message_attr'),
@@ -69,13 +86,12 @@ trait ProviderConfig
         $this->validate($request, $rules, $messages);
     }
 
-    private function multiexplode ($delimiters,$string) {
+    private function multiexplode($delimiters, $string)
+    {
 
         $ready = str_replace($delimiters, $delimiters[0], $string);
         $launch = explode($delimiters[0], $ready);
-        return  $launch;
+        return $launch;
     }
-
-
 
 }

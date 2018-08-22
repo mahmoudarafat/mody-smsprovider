@@ -39,7 +39,7 @@ class SMSProvider extends SMSProviderController
      */
     public function updateProviderSetup(Request $request)
     {
-        return parent::updateSetup($request);
+        return parent::submitUpdate($request);
     }
 
     /**
