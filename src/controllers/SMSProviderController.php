@@ -24,21 +24,28 @@ class SMSProviderController extends Controller
     public function editProviderConfig($provider_id)
     {
         $provider = Provider::findOrFail($provider_id);
-
         return view('smsprovider::edit-provider', compact('provider'));
     }
 
     public function authProviders()
     {
-        $trytwo = Provider::where('user_id', auth()->user()->id)->paginate(20);
-        return $trytwo;
+        try{
+            $trytwo = Provider::where('user_id', auth()->user()->id)->paginate(20);
+            return $trytwo;
+        }catch(\Exception $e){
+            return collect();
+        }
     }
 
     public function authProvidersView()
     {
-        $title = trans('smsprovider::smsgateway.user_providers_title');
-        $trytwo = $this->authProviders();
-        return view('smsprovider::auth-providers', compact('trytwo', 'title'));
+        try {
+            $title = trans('smsprovider::smsgateway.user_providers_title');
+            $trytwo = $this->authProviders();
+            return view('smsprovider::auth-providers', compact('trytwo', 'title'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function myGroupProviders()
@@ -49,22 +56,35 @@ class SMSProviderController extends Controller
 
     public function myGroupProvidersView()
     {
-        $title = trans('smsprovider::smsgateway.group_providers_title');
-        $tryone = $this->myGroupProviders();
-        return view('smsprovider::group-providers', compact('tryone', 'title'));
+        try {
+            $title = trans('smsprovider::smsgateway.group_providers_title');
+            $tryone = $this->myGroupProviders();
+            return view('smsprovider::group-providers', compact('tryone', 'title'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function authTrashedProviders()
     {
-        $trytwo = Provider::onlyTrashed()->where('user_id', auth()->user()->id)->paginate(20);
-        return $trytwo;
+        if (auth()->check()) {
+            $trytwo = Provider::onlyTrashed()->where('user_id', auth()->user()->id)->paginate(20);
+            return $trytwo;
+        } else {
+            return collect();
+        }
+
     }
 
     public function authTrashedProvidersView()
     {
-        $title = trans('smsprovider::smsgateway.user_trashed_providers_title');
-        $trytwo = $this->authTrashedProviders();
-        return view('smsprovider::auth-providers', compact('trytwo', 'title'));
+        try{
+            $title = trans('smsprovider::smsgateway.user_trashed_providers_title');
+            $trytwo = $this->authTrashedProviders();
+            return view('smsprovider::auth-providers', compact('trytwo', 'title'));
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     public function myGroupTrashedProviders()
