@@ -55,5 +55,14 @@ return [
     'destroy_success' => 'provider is destroyed successfully',
     'destroy_error' => 'Error happened while detroying the provider',
 
-'empty_info' => 'No data to be displayed'
+    'empty_info' => 'no data to be displayed',
+
+    'confirm' => 'Confirm',
+    'confirm_recover' => 'Do you really want to restore this provider from trash?',
+    'confirm_soft_delete' => 'Do you really want to move this provider to the trash?',
+    'confirm_set_default' => 'Do you really want to set this provider as the default one?',
+    'confirm_remove_default' => 'Do you really want to remove this provider as the default one?',
+    'confirm_destroy' => 'Do you realy want to destroy this provider and all relative data including SMSs?',
+
+
 ];

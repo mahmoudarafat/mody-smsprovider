@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <div class="container" style="margin-top:3em;">
         <div class="row">
 
@@ -10,22 +11,19 @@
                 <h1 class="pager text-primary">{{ $title ?? '' }}</h1>
                 <hr>
             </div>
-
             @if($trytwo->count() > 0)
-            <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-10 col-md-offset-1">
 
-                <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr class="info">
-                        <th>#</th>
-                        <th>{{ trans('smsprovider::smsgateway.api_company') }}</th>
-                        <th>{{ trans('smsprovider::smsgateway.api_url') }}</th>
-                        <th>{{ trans('smsprovider::smsgateway.actions') }}</th>
-                    </tr>
-                    </thead>
-                    <tbody id="table-body">
-
-
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr class="info">
+                            <th>#</th>
+                            <th>{{ trans('smsprovider::smsgateway.api_company') }}</th>
+                            <th>{{ trans('smsprovider::smsgateway.api_url') }}</th>
+                            <th>{{ trans('smsprovider::smsgateway.actions') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-body">
                         @foreach($trytwo->chunk(20) as $item_ch)
                             @foreach($item_ch as $item)
                                 <tr id="itemrow-{{ $item->id }}">
@@ -76,19 +74,42 @@
                                 </tr>
                             @endforeach
                         @endforeach
-                    </tbody>
-                </table>
 
-                <div class="text-center">
-                    {!! $trytwo->links() !!}
+                        </tbody>
+                    </table>
+
+                    <div class="text-center">
+                        {!! $trytwo->links() !!}
+                    </div>
                 </div>
-
-            </div>
             @else
-                <h3 class="text-muted text-center">{{ trans('smsprovider::smsgateway.empty_info') }}</h3>
+                <h3 class="text-center text-muted">{{ trans('smsprovider::smsgateway.empty_info') }}</h3>
             @endif
+        </div>
+    </div>
+
+
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="close_modal">&times;</span>
+                </div>
+                <div class="col-md-10">
+                    <div id="modal_content"></div>
+
+                    <div id="btn_do">
+
+                    </div>
+                </div>
+            </div>
 
         </div>
+        <div class="modal-footer">
+        </div>
+
     </div>
 
 @stop
@@ -123,15 +144,69 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* The Modal (background) */
+        .modal {
+            /*display: none; !* Hidden by default *!*/
+            position: fixed; /* Stay in place */
+            z-index: 999999; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close_modal {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close_modal:hover,
+        .close_modal:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 @stop
 
 @section('scripts')
 
-    <script src="{{ url('packages\mody\smsprovider\axios.min.js') }}"></script>
+    <script src="{{ get_url('packages\mody\smsprovider\axios.min.js') }}"></script>
     <script>
 
+        $(document).on('click', '.close_modal', function () {
+            $('#myModal').modal('toggle');
+        });
+
         function recover(id) {
+            $('#myModal').modal('toggle');
+            $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_recover') }}' + '</h3>');
+            $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
+                '                            id="modal_btn" onclick="doRecover(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
+                '</button>')
+        }
+
+        function doRecover(id) {
+
+            $('#myModal').modal('toggle');
 
             $('#load-' + id).css('display', 'block');
 
@@ -165,6 +240,18 @@
         }
 
         function softDelete(id) {
+            $('#myModal').modal('toggle');
+            $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_soft_delete') }}' + '</h3>');
+            $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
+                '                            id="modal_btn" onclick="doSoftDelete(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
+                '</button>')
+        }
+
+        function doSoftDelete(id) {
+
+            $('#myModal').modal('toggle');
+
             $('#load-' + id).css('display', 'block');
             axios.post('{{ route('smsprovider.providers.ajax.trash-provider') }}', {
                 provider_id: id,
@@ -199,6 +286,20 @@
 
             var id = $(this).data('id');
 
+            $('#myModal').modal('toggle');
+            $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_set_default') }}' + '</h3>');
+
+            $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
+                '                            id="modal_btn" onclick="setDefaultProvider(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
+                '</button>')
+
+        });
+
+        function setDefaultProvider(id) {
+
+            $('#myModal').modal('toggle');
+
             $('#load-' + id).css('display', 'block');
 
             axios.post('{{ route('smsprovider.providers.ajax.set-default-provider') }}', {
@@ -224,7 +325,6 @@
                             '                                                </button>'
                         );
 
-
                         $('#message-info').empty().append(
                             '<p class="text-center alert alert-success">' + '{{ trans('smsprovider::smsgateway.set_default_success') }}' + '</p>'
                         );
@@ -247,11 +347,25 @@
                     }, 2500);
                 });
 
-        });
+        }
 
         $(document).on('click', '.default_pro', function () {
 
             var id = $(this).data('id');
+
+            $('#myModal').modal('toggle');
+            $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_remove_default') }}' + '</h3>');
+
+            $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
+                '                            id="modal_btn" onclick="removeDefaultProvider(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
+                '</button>')
+
+        });
+
+        function removeDefaultProvider(id) {
+
+            $('#myModal').modal('toggle');
 
             $('#load-' + id).css('display', 'block');
 
@@ -291,10 +405,18 @@
                     }, 2500);
                 });
 
-        });
-
+        }
 
         function destroy(id) {
+            $('#myModal').modal('toggle');
+            $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_destroy') }}' + '</h3>');
+            $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
+                '                            id="modal_btn" onclick="doDestroy(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
+                '</button>')
+        }
+
+        function doDestroy(id) {
             $('#load-' + id).css('display', 'block');
             axios.post('{{ route('smsprovider.providers.ajax.destroy-provider') }}', {
                 provider_id: id,
@@ -324,6 +446,7 @@
                     }, 2500);
                 });
         }
+
 
     </script>
 @stop
