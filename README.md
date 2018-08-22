@@ -271,7 +271,7 @@ set default provider
 	
 	route('smsprovider.providers.user-track');
 	
-	url('smsprovider.user-track');
+	url('smsprovider/user-track');
 ```
 ******group track [20/page]******
 ```php
@@ -281,7 +281,7 @@ set default provider
 	
 	route('smsprovider.providers.group-track');
 	
-	url('smsprovider.group-track');
+	url('smsprovider/group-track');
 ```
 -------------------------------------------------------------------------------
 	
