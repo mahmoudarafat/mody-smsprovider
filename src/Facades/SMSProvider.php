@@ -173,5 +173,22 @@ class SMSProvider extends SMSProviderController
     {
         return (new parent())->myGroupTrackView();
     }
+    
+    /**
+     * @return user track activity collection
+     */
+    public static function track()
+    {
+        return (new parent())->myTrack();
+    }
 
+    /**
+     * @return user track activity view
+     */
+    public static function trackView()
+    {
+        return (new parent())->myTrackView();
+    }
+
+    
 }
