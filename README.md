@@ -219,9 +219,10 @@ set default provider
 	
 	url('smsprovider/group-providers');
 ```
-	
 
-## get trashed providers 20/page 
+------------------------------------------------------------------------------
+
+## get trashed providers => [20/page] 
 ******return collection for auth user****** 
 ```php
 	SMSProvider::myTrashedProviders();
