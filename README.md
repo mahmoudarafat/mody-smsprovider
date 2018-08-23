@@ -1,6 +1,4 @@
-## mody-smsgateway - Laravel Multiple sms provider gateway package
-
-# Package is still Under Construction
+## mody/smsprovider - Laravel Multiple sms provider gateway package
 
 ## Introduction
 
