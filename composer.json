@@ -4,7 +4,7 @@
     "type": "package",
     "keywords": ["laravel","sms","smsgateway", "smsprovider", "multiple smsprovider", "multiple smsgateway"],
     "require": {
-        "php": ">= 5.3.0"
+        "php": "^5.3.0",
     },
     "license": "MIT",
     "authors": [
