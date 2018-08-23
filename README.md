@@ -125,7 +125,7 @@ return new provider setup view:
 	
 	route('smsprovider.providers.setup');
 	
-	url('smsprovider.setup');
+	url('smsprovider/setup');
 ```
 	
 send new sms to number or multiple numbers
