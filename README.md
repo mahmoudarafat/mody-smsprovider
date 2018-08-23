@@ -142,11 +142,16 @@ Example
 	
 	'0: error_code' => 'sending failed, and error code is given',
 	       '1'      => 'messege delivered successfully',
-	       '2'      => 'no response from destination or connection error'
+	       '2'      => 'no response from destination or connection error',
+	       '3'      => 'no provider found'
 
 return a single provider configuartion view/edit *view*
 ```php
-	SMSProvider::updateProvider($provider_id);
+	SMSProvider::editProvider($provider_id);
+	
+	route('smsprovider.providers.edit_provider', $provider_id);
+	
+	url('smsprovider/edit-provider/' . $provider_id);
 ```
 	
 move provider to trash [soft delete]  
@@ -189,16 +194,6 @@ remove default provider
 ```php
 	SMSProvider::removeDefaultProvider();
 ```
-
-*** expected response ***	
-
-	true or false
-		
-set default provider 
-```php
-	SMSProvider::removeDefaultProvider($provider_id);
-```
-
 *** expected response ***	
 
 	true or false
