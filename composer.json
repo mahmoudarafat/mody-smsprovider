@@ -18,6 +18,5 @@
             "mody\\smsprovider\\": "src/"
         }
     },
-    "minimum-stability": "stable",
      "prefer-stable": true
 }
