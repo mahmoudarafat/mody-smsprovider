@@ -88,6 +88,7 @@ add auth model
 
 # Features:
  ```
+ 0. Multi Language support; Currently supports [Arabic and English].
  1. you can add one or more sms provider/gateway to your account/group.
  2. choose your default sms provider/gateway to send through it.
  3. simple view for your account/group sms providers/gateways.
