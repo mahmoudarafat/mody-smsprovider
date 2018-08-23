@@ -3,8 +3,8 @@
     "description": "config your sms gateway provider and start sending sms, still under construction",
     "type": "package",
     "keywords": ["laravel","sms","smsgateway", "smsprovider", "multiple smsprovider", "multiple smsgateway"],
-    "require": {
-        "php": "^5.3.0"
+     "require": {
+        "php": ">= 5.3.0"
     },
     "license": "MIT",
     "authors": [
@@ -18,6 +18,6 @@
             "mody\\smsprovider\\": "src/"
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+   
+     "prefer-stable": true
 }
