@@ -288,5 +288,28 @@ set default provider
 ```
 -------------------------------------------------------------------------------
 	
+
+## messages log activity
+
+******auth user log [20/page]******
+```php
+	SMSProvider::log();
+	
+	SMSProvider::logView();
+	
+	route('smsprovider.providers.user-log');
+	
+	url('smsprovider/user-log');
+```
+******group log [20/page]******
+```php
+	SMSProvider::groupLog();
+	
+	SMSProvider::groupLogView();
+	
+	route('smsprovider.providers.group-log');
+	
+	url('smsprovider/group-log');
+```
 	
 	
