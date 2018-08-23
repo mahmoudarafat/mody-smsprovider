@@ -115,7 +115,7 @@ class SMSProvider extends SMSProviderController
     }
 
     /**
-     * @param $provider_id, set default provider
+     * @param $provider_id , set default provider
      */
     public static function setDefaultProvider($provider_id)
     {
@@ -123,7 +123,7 @@ class SMSProvider extends SMSProviderController
     }
 
     /**
-     * @param $provider_id, set default provider
+     * @param $provider_id , set default provider
      */
     public static function removeDefaultProvider()
     {
@@ -132,7 +132,7 @@ class SMSProvider extends SMSProviderController
 
 
     /**
-     * @param $provider_id, soft delete provider
+     * @param $provider_id , soft delete provider
      */
     public static function deleteProvider($provider_id)
     {
@@ -141,7 +141,7 @@ class SMSProvider extends SMSProviderController
 
 
     /**
-     * @param $provider_id, destroy provider
+     * @param $provider_id , destroy provider
      */
     public static function destroyProvider($provider_id)
     {
@@ -149,7 +149,7 @@ class SMSProvider extends SMSProviderController
     }
 
     /**
-     * @param $provider_id, restore trashed provider
+     * @param $provider_id , restore trashed provider
      * @return bool
      */
     public static function recoverProvider($provider_id)
@@ -173,7 +173,7 @@ class SMSProvider extends SMSProviderController
     {
         return (new parent())->myGroupTrackView();
     }
-    
+
     /**
      * @return user track activity collection
      */
@@ -190,5 +190,38 @@ class SMSProvider extends SMSProviderController
         return (new parent())->myTrackView();
     }
 
-    
+    /**
+     * @return user messages log activity collection
+     */
+    public static function log()
+    {
+        return (new parent())->myLog();
+    }
+
+    /**
+     * @return user track activity view
+     */
+    public static function logView()
+    {
+        return (new parent())->myLogView();
+    }
+
+
+    /**
+     * @return user messages log activity collection
+     */
+    public static function groupLog()
+    {
+        return (new parent())->groupLogActivity();
+    }
+
+    /**
+     * @return user track activity view
+     */
+    public static function groupLogView()
+    {
+        return (new parent())->groupLogActivityView();
+    }
+
+
 }

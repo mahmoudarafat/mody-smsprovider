@@ -64,11 +64,18 @@ return [
     'confirm_remove_default' => 'Do you really want to remove this provider as the default one?',
     'confirm_destroy' => 'Do you realy want to destroy this provider and all relative data including SMSs?',
 
-
     'user' => 'User',
     'details' => 'Details',
     'date' => 'Date',
     'track_group_title' => 'Track Group\'s users\' activities',
+    'track_title' => 'Track My activities',
 
+    'sent_success' => 'Sent Successfully',
+    'sent_fail' => 'Sent Failure ',
+    'message' => 'Message',
+    'mobile' => 'Mobile',
+
+    'log_title' => 'Messages Activity Log',
+    'group_log_title' => 'Group\'s Messages Activity Log',
 
 ];

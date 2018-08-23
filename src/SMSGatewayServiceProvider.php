@@ -4,7 +4,6 @@ namespace mody\smsprovider;
 
 use Illuminate\Support\ServiceProvider;
 use mody\smsprovider\commands\tableCommand;
-use mody\smsprovider\controllers\SMSGatewayController;
 use mody\smsprovider\controllers\SMSProviderController;
 
 class SMSGatewayServiceProvider extends ServiceProvider

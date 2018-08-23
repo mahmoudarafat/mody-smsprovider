@@ -243,7 +243,7 @@ class SMSProviderController extends Controller
                     'success' => trans('smsprovider::smsgateway.saved')
                 ]);
             }
-            
+
         } catch (\Exception $e) {
             return redirect()->back()->with([
                 'error' => trans('smsprovider::smsgateway.error')
@@ -477,7 +477,39 @@ class SMSProviderController extends Controller
     public function myTrackView()
     {
         $track = $this->myTrack();
-        return view('smsprovider::track-group', compact('track'));
+        return view('smsprovider::track', compact('track'));
+    }
+
+    public function myLog()
+    {
+        if (auth()->check()) {
+            $messages = Message::where('user_id', auth()->user()->id)
+                ->orderBy('created_at', 'DESC')
+                ->paginate(20);
+            return $messages;
+        } else {
+            return collect();
+        }
+    }
+
+    public function myLogView()
+    {
+        $messages = $this->myLog();
+        return view('smsprovider::message-log', compact('messages'));
+    }
+
+    public function groupLogActivity()
+    {
+        $messages = Message::where('group_id', session('group_id'))
+            ->orderBy('created_at', 'DESC')
+            ->paginate(20);
+        return $messages;
+    }
+
+    public function groupLogActivityView()
+    {
+        $messages = $this->groupLogActivity();
+        return view('smsprovider::group-message-log', compact('messages'));
     }
 
 }

@@ -10,18 +10,22 @@ $route =
     ],
         function () use ($SMSProvider, $SMSProviderAjaxController) {
             Route::get('setup', $SMSProvider . '@configProvider');
-            Route::get('user-providers', $SMSProvider . '@myProvidersView')->name('user-providers');
-            Route::get('user-trashed-providers', $SMSProvider . '@myTrashedProvidersView');
-            Route::get('group-providers', $SMSProvider . '@groupProvidersView')->name('group-providers');
-            Route::get('group-trashed-providers', $SMSProvider . '@groupTrashedProvidersView');
-            Route::get('edit-provider/{provider_id}', $SMSProvider . '@editProvider')->name('edit_provider');
             Route::post('submit_setup', $SMSProvider . '@submitProviderSetup')->name('submit_setup');
 
+            Route::get('user-providers', $SMSProvider . '@myProvidersView')->name('user-providers');
+            Route::get('user-trashed-providers', $SMSProvider . '@myTrashedProvidersView');
+
+            Route::get('group-providers', $SMSProvider . '@groupProvidersView')->name('group-providers');
+            Route::get('group-trashed-providers', $SMSProvider . '@groupTrashedProvidersView');
+
+            Route::get('edit-provider/{provider_id}', $SMSProvider . '@editProvider')->name('edit_provider');
             Route::post('update_setup', $SMSProvider . '@updateProviderSetup')->name('update_setup');
 
             Route::get('user-track', $SMSProvider . '@trackView')->name('user-track');
-
             Route::get('group-track', $SMSProvider . '@groupTrackView')->name('group-track');
+
+            Route::get('user-log', $SMSProvider . '@logView')->name('user-log');
+            Route::get('group-log', $SMSProvider . '@groupLogView')->name('group-log');
 
             
             Route::group([
