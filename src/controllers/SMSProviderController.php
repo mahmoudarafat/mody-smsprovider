@@ -251,71 +251,78 @@ class SMSProviderController extends Controller
         }
     }
 
-    public function sendNewSMS($message, $numbers)
+     public function sendNewSMS($message, $numbers)
     {
 
         $provider = $this->initProvider();
-        $method = $provider->http_method;
-        $success_code = $provider->success_code;
-        $url = $provider->api_url;
+        if ($provider) {
 
-        $t = $this->generateSMSBody($message, $numbers);
+            $method = $provider->http_method;
+            $success_code = $provider->success_code;
+            $url = $provider->api_url;
 
-        $ch = curl_init();
+            $t = $this->generateSMSBody($message, $numbers);
 
-        curl_setopt($ch, CURLOPT_URL, $url . '?' . $t);
+            $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+            curl_setopt($ch, CURLOPT_URL, $url . '?' . $t);
 
-        curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//            curl_setopt($ch, CURLOPT_POST, 1);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 //        curl_setopt($ch, CURLOPT_HTTPHEADER, $t);
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $t);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $t);
 
-        // Allowing cUrl funtions 30 second to execute
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            // Allowing cUrl funtions 30 second to execute
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
-        // Waiting 30 seconds while trying to connect
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+            // Waiting 30 seconds while trying to connect
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
 
-        $response_string = curl_exec($ch);
+            $response_string = curl_exec($ch);
 
-        curl_close($ch);
+            curl_close($ch);
 
-        $xx = $this->explodeX(['|', ',', '-'], $response_string);
+            $xx = $this->explodeX(['|', ',', '-'], $response_string);
 
-        if ($xx) {
-            $code = $xx[0];
-            if (strpos($code, $success_code) !== false) {
+            if ($xx) {
+                $code = $xx[0];
+                if (strpos($code, $success_code) !== false) {
 //                $respo = 'sent successfully';
-                $respo = '1';
-                $status = true;
+                    $respo = '1';
+                    $status = true;
+                } else {
+                    $status = false;
+//                $respo = 'fail with code: ' . $code;
+                    $respo = '0: ' . $code;
+                }
             } else {
                 $status = false;
-//                $respo = 'fail with code: ' . $code;
-                $respo = '0: ' . $code;
-            }
-        } else {
-            $status = false;
-            $code = 'NAN';
+                $code = 'NAN';
 //            $respo = 'no response';
-            $respo = '2';
+                $respo = '2';
+            }
+
+            $tr = $this->trackArray();
+
+            $nums = explode(',', $numbers);
+
+            foreach ($nums as $number) {
+                $message_id = $this->saveMessageData($code, $message, $number, $status, auth()->user()->id ?? 0, $provider->id);
+                $description = 'sending message to user';
+                ##### I'm here!!!
+                $this->recordTrack($tr['0'], auth()->user()->id ?? 0, $message_id, $provider->id, $description);
+            }
+
+            return $respo;
+
+        } else {
+            return '3';
         }
 
-        $tr = $this->trackArray();
-
-        $nums = explode(',', $numbers);
-
-        foreach ($nums as $number) {
-            $message_id = $this->saveMessageData($code, $message, $number, $status, auth()->user()->id ?? 0, $provider->id);
-            $description = 'sending message to user';
-            ##### I'm here!!!
-            $this->recordTrack($tr['0'], auth()->user()->id ?? 0, $message_id, $provider->id, $description);
-        }
-
-        return $respo;
     }
 
     public function softDeleteProvider($provider_id)
