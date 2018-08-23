@@ -33,7 +33,7 @@
 ----------------------------------------------------------------------
 
 ### Installation
-      composer require mody/smsprovider
+      composer require mody/smsprovider --prefer-dist
 
 
 ## after installation, do this:
