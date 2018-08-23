@@ -1,6 +1,6 @@
 {
     "name": "mody/smsprovider",
-    "description": "config your sms gateway provider and start sending sms, still under construction",
+    "description": "config your sms gateway provider and start sending sms",
     "type": "package",
     "keywords": ["laravel","sms","smsgateway", "smsprovider", "multiple smsprovider", "multiple smsgateway"],
      "require": {
