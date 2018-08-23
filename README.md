@@ -35,7 +35,7 @@
 ----------------------------------------------------------------------
 
 ### Installation
-      composer require mody/smsprovider:dev-master 
+      composer require mody/smsprovider
 
 
 ## after installation, do this:
