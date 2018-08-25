@@ -7,6 +7,7 @@ use DB;
 use Illuminate\Http\Request;
 use mody\smsprovider\Facades\SMSProvider;
 use mody\smsprovider\Models\Provider;
+use mody\smsprovider\Models\Template;
 
 
 class SMSProviderAjaxController extends Controller
@@ -44,6 +45,41 @@ class SMSProviderAjaxController extends Controller
         $provider_id = $request->provider_id;
         $do = SMSProvider::setDefaultProvider($provider_id);
         return json_encode($do);
+    }
+
+
+
+
+    public function changeTempStatus(Request $request)
+    {
+        $template_id = $request->template_id;
+        $template = Template::find($template_id);
+        $s = $template->status;
+        $do = SMSProvider::changeTemplateStatus($template_id);
+        return json_encode(['res' => $do, 'stat' => $s]);
+    }
+
+    public function restoreTemplate(Request $request)
+    {
+        $template_id = $request->template_id;
+        $do = SMSProvider::recoverTemplate($template_id);
+        return json_encode($do);
+    }
+
+    public function trashTemplate(Request $request)
+    {
+        $template_id = $request->template_id;
+        $do = SMSProvider::trashTemplate($template_id);
+        return json_encode($do);
+    }
+
+    public function destroyTemplate(Request $request)
+    {
+        $template = $request->template_id;
+        $provider = Template::find($template);
+        $do = SMSProvider::removeTemplate($template);
+        return json_encode($do);
+
     }
 
 }

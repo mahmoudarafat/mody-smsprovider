@@ -79,4 +79,41 @@ return [
     'log_title' => 'تقرير الرسائل المرسلة',
     'group_log_title' => 'تقرير رسائل المجموعة المرسلة',
 
+
+    'available' => 'مفعل',
+    'frozen' => 'غير مفعل',
+    'user_templates_title' => 'نماذج الارسال الجاهزة',
+    'group_templates_title' => 'نمائج الارسال الجاهزة الخاصة بالمجموعة',
+    'user_trashed_templates_title' => 'سلة محذوفات نماذئج الارسال',
+    'group_trashed_templates_title' => 'سلة ممحذوفات نمائج ارسال المجموعة',
+    'freeze' => 'الغاء تفعيل',
+    'enable' => 'تفعيل',
+    'status' => 'الحالة',
+    'title' => 'العنوان',
+
+    'confirm_template_recover' => 'هل تريد استرجاع النموذج من سلة الحذوفات فعلا؟',
+    'confirm_template_soft_delete' => 'هل تريد اضافة النموذج الي سلة الحذوفات فعلا؟',
+    'confirm_template_destroy' => 'هل تريد حذف النموذج نهائيا؟',
+    'confirm_template_change_status' => 'هل تريد تغيير حالة النموذج؟',
+
+
+
+    'recover_t-error' => 'حدث خطأ اثناء استرجاع مزود الخدمة',
+    'recover_t-success' => 'تم استرجاع مزود الخدمة من المحذوفات بنجاح',
+
+    'chng_status_success' => 'تم تغيير حالة النموذج بنجاح',
+    'chng_status_error' => 'حدث خطأ اثناء تغيير حالة النموذج',
+
+    'delete_t-success' => 'تم اضافة النموذج الي سلة المحذوفات بنجاح',
+    'delete_t-error' => 'حدث خطأ اثناء اضافة النموذج الي سلة المحذوفات',
+
+    'destroy_t-success' => 'تم حذف النموذج نهائيا',
+    'destroy_t-error' => 'حدث خطأ اثناء حذف النموذج نهائيا',
+
+    'title_required' => 'العنوان مطلوب',
+    'message_required' => 'الرسالة مطلوبة',
+
+    'edit_template_title' => 'تعديل النموذج ',
+
+
 ];

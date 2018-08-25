@@ -1,6 +1,7 @@
 <?php
 
 $SMSProvider = 'mody\smsprovider\Facades\SMSProvider';
+$TemplatesController = 'mody\smsprovider\controllers\SMSProviderTemplatesController';
 $SMSProviderAjaxController = 'mody\smsprovider\controllers\SMSProviderAjaxController';
 $route =
     Route::group([
@@ -8,7 +9,7 @@ $route =
         'prefix' => 'smsprovider',
         'as' => 'smsprovider.providers.'
     ],
-        function () use ($SMSProvider, $SMSProviderAjaxController) {
+        function () use ($SMSProvider, $SMSProviderAjaxController, $TemplatesController) {
             Route::get('setup', $SMSProvider . '@configProvider');
             Route::post('submit_setup', $SMSProvider . '@submitProviderSetup')->name('submit_setup');
 
@@ -27,7 +28,18 @@ $route =
             Route::get('user-log', $SMSProvider . '@logView')->name('user-log');
             Route::get('group-log', $SMSProvider . '@groupLogView')->name('group-log');
 
-            
+            Route::get('user-templates', $TemplatesController . '@userTempsView')->name('user-templates');
+            Route::get('group-templates', $TemplatesController . '@groupTempsView')->name('group-templates');
+
+            Route::get('user-trashed-templates', $TemplatesController . '@userTrashTempsView')->name('user-trashed-templates');
+            Route::get('group-trashed-templates', $TemplatesController . '@groupTrashTempsView')->name('group-trashed-templates');
+
+            Route::post('store-templates', $TemplatesController . '@storeTemplates')->name('store-user-templates');
+
+            Route::get('edit-template/{template_id}', $TemplatesController . '@editTemplate')->name('edit_template');
+            Route::post('update-template', $TemplatesController . '@updateTemplate')->name('update_template');
+
+
             Route::group([
                 'prefix' => 'ajax',
                 'as' => 'ajax.'
@@ -37,6 +49,12 @@ $route =
                 Route::post('destroy-provider', $SMSProviderAjaxController . '@destroyProvider')->name('destroy-provider');
                 Route::post('set-default-provider', $SMSProviderAjaxController . '@setDefaultProvider')->name('set-default-provider');
                 Route::post('remove-default-provider', $SMSProviderAjaxController . '@removeDefaultProvider')->name('remove-default-provider');
+
+                Route::post('change-temp-status', $SMSProviderAjaxController . '@changeTempStatus')->name('status-template');
+                Route::post('trash-template', $SMSProviderAjaxController . '@trashTemplate')->name('trash-template');
+                Route::post('destroy-template', $SMSProviderAjaxController . '@destroyTemplate')->name('destroy-template');
+                Route::post('restore-template', $SMSProviderAjaxController . '@restoreTemplate')->name('restore-template');
+
             });
 
         });

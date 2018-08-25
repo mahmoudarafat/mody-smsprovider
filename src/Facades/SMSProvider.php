@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use mody\smsprovider\controllers\SMSProviderController;
+use mody\smsprovider\controllers\SMSProviderTemplatesController;
 
 class SMSProvider extends SMSProviderController
 {
+    public function __construct(SMSProviderTemplatesController $template)
+    {
+        $this->template = $template;
+    }
 
     /**
      * @return new provider configuration view
@@ -223,5 +228,110 @@ class SMSProvider extends SMSProviderController
         return (new parent())->groupLogActivityView();
     }
 
+    /* =-=-=-=-=-=-=-=-=-=-=-=-=-TEMPLATES-=-==-=-=-=-=-=-=-=-=-=-=-=-= */
+
+    /**
+     * @return user templates
+     */
+    public static function templates()
+    {
+        return (new SMSProviderTemplatesController())->userTemps();
+    }
+
+    /**
+     * @return group templates
+     */
+    public static function groupTemplates()
+    {
+        return (new SMSProviderTemplatesController())->groupTemps();
+    }
+
+    /**
+     * @return user trashed templates
+     */
+    public static function trashedTemplates()
+    {
+        return (new SMSProviderTemplatesController())->userTrashTemps();
+    }
+
+    /**
+     * @return group trashed templates
+     */
+    public static function groupTrashedTemplates()
+    {
+        return (new SMSProviderTemplatesController())->groupTrashTemps();
+    }
+
+    /**
+     * @return store new templates
+     */
+    public static function storeTemplates($templates_array)
+    {
+        return (new SMSProviderTemplatesController())->storeArrayTemplates($templates_array);
+    }
+
+    /**
+     * @return user templates view
+     */
+    public static function templatesView()
+    {
+        return (new SMSProviderTemplatesController())->userTempsView();
+    }
+
+    /**
+     * @return group templates view
+     */
+    public static function groupTemplatesView()
+    {
+        return (new SMSProviderTemplatesController())->groupTempsView();
+    }
+
+    /**
+     * @return user trashed templates view
+     */
+    public static function trashTemplatesView()
+    {
+        return (new SMSProviderTemplatesController())->userTrashTempsView();
+    }
+
+    /**
+     * @return group trashed templates view
+     */
+    public static function groupTrashTemplatesView()
+    {
+        return (new SMSProviderTemplatesController())->groupTrashTempsView();
+    }
+
+    /**
+     * @return change template status
+     */
+    public static function changeTemplateStatus($template_id)
+    {
+        return (new SMSProviderTemplatesController())->changeTempStat($template_id);
+    }
+
+    /**
+     * @return recover template
+     */
+    public static function recoverTemplate($template_id)
+    {
+        return (new SMSProviderTemplatesController())->recoverATemplate($template_id);
+    }
+
+    /**
+     * @return trash template
+     */
+    public static function trashTemplate($template_id)
+    {
+        return (new SMSProviderTemplatesController())->trashATemplate($template_id);
+    }
+
+    /**
+     * @return remove template
+     */
+    public static function removeTemplate($template_id)
+    {
+        return (new SMSProviderTemplatesController())->removeATemplate($template_id);
+    }
 
 }

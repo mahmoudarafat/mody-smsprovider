@@ -188,7 +188,7 @@
     <script src="{{ get_url('packages\mody\smsprovider\axios.min.js') }}"></script>
     <script>
 
-        $(document).on('click', '.close_modal', function(){
+        $(document).on('click', '.close_modal', function () {
             $('#myModal').modal('toggle');
         });
 
@@ -196,8 +196,8 @@
             $('#myModal').modal('toggle');
             $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_recover') }}' + '</h3>');
             $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
-                '                            id="modal_btn" onclick="doRecover('+id+')">'+
-                '    {{ trans('smsprovider::smsgateway.confirm') }}'+
+                '                            id="modal_btn" onclick="doRecover(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
                 '</button>')
         }
 
@@ -222,6 +222,7 @@
                         );
                     }
                     $('#load-' + id).css('display', 'none');
+
                     setTimeout(function () {
                         $('#message-info').empty();
                     }, 2500);
@@ -240,8 +241,8 @@
             $('#myModal').modal('toggle');
             $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_soft_delete') }}' + '</h3>');
             $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
-                '                            id="modal_btn" onclick="doSoftDelete('+id+')">'+
-                '    {{ trans('smsprovider::smsgateway.confirm') }}'+
+                '                            id="modal_btn" onclick="doSoftDelete(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
                 '</button>')
         }
 
@@ -264,12 +265,15 @@
                             '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.delete_error') }}' + '</p>'
                         );
                     }
+
                     $('#load-' + id).css('display', 'none');
                     setTimeout(function () {
                         $('#message-info').empty();
                     }, 2500);
                 })
                 .catch(function () {
+                    $('#load-' + id).css('display', 'none');
+
                     $('#message-info').empty().append(
                         '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.delete_error') }}' + '</p>'
                     );
@@ -287,8 +291,8 @@
             $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_set_default') }}' + '</h3>');
 
             $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
-                '                            id="modal_btn" onclick="setDefaultProvider('+id+')">'+
-                '    {{ trans('smsprovider::smsgateway.confirm') }}'+
+                '                            id="modal_btn" onclick="setDefaultProvider(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
                 '</button>')
 
         });
@@ -331,11 +335,14 @@
                         );
                     }
                     $('#load-' + id).css('display', 'none');
+
                     setTimeout(function () {
                         $('#message-info').empty();
                     }, 2500);
                 })
                 .catch(function (err) {
+                    $('#load-' + id).css('display', 'none');
+
                     $('#message-info').empty().append(
                         '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.set_default_error') }}' + '</p>'
                     );
@@ -354,8 +361,8 @@
             $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_remove_default') }}' + '</h3>');
 
             $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
-                '                            id="modal_btn" onclick="removeDefaultProvider('+id+')">'+
-                '    {{ trans('smsprovider::smsgateway.confirm') }}'+
+                '                            id="modal_btn" onclick="removeDefaultProvider(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
                 '</button>')
 
         });
@@ -394,6 +401,8 @@
                     }, 2500);
                 })
                 .catch(function (err) {
+                    $('#load-' + id).css('display', 'none');
+
                     $('#message-info').empty().append(
                         '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.remove_default_error') }}' + '</p>'
                     );
@@ -408,12 +417,14 @@
             $('#myModal').modal('toggle');
             $('#modal_content').empty().append('<h3>' + '{{ trans('smsprovider::smsgateway.confirm_destroy') }}' + '</h3>');
             $('#btn_do').empty().append('<button class="btn btn-success text-center"\n' +
-                '                            id="modal_btn" onclick="doDestroy('+id+')">'+
-                '    {{ trans('smsprovider::smsgateway.confirm') }}'+
+                '                            id="modal_btn" onclick="doDestroy(' + id + ')">' +
+                '    {{ trans('smsprovider::smsgateway.confirm') }}' +
                 '</button>')
         }
 
         function doDestroy(id) {
+            $('#myModal').modal('toggle');
+
             $('#load-' + id).css('display', 'block');
             axios.post('{{ route('smsprovider.providers.ajax.destroy-provider') }}', {
                 provider_id: id,
@@ -430,11 +441,13 @@
                         );
                     }
                     $('#load-' + id).css('display', 'none');
+
                     setTimeout(function () {
                         $('#message-info').empty();
                     }, 2500);
                 })
                 .catch(function () {
+                    $('#load-' + id).css('display', 'none');
                     $('#message-info').empty().append(
                         '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.destroy_error') }}' + '</p>'
                     );
@@ -443,7 +456,6 @@
                     }, 2500);
                 });
         }
-
 
 
     </script>

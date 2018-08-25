@@ -78,4 +78,40 @@ return [
     'log_title' => 'Messages Activity Log',
     'group_log_title' => 'Group\'s Messages Activity Log',
 
+
+    'available' => 'Available',
+    'frozen' => 'Frozen',
+    'user_templates_title' => 'My Recorded Templates',
+    'group_templates_title' => 'Group Recorded Templates',
+    'user_trashed_templates_title' => 'My Trashed Templates',
+    'group_trashed_templates_title' => 'Group Trashed Templates',
+    'freeze' => 'Freeze',
+    'enable' => 'Enable',
+    'status' => 'Status',
+    'title' => 'Title',
+
+    'confirm_template_recover' => 'Do you really want to restore this template from trash?',
+    'confirm_template_soft_delete' => 'Do you really want to move this template to the trash?',
+    'confirm_template_change_status' => 'Do you really want to change the template\'s status?',
+    'confirm_template_destroy' => 'Do you realy want to destroy this template?',
+
+    'delete-t-success' => 'template is trashed successfully',
+    'delete-t-error' => 'Error happend while trashing the template',
+
+    'destroy_t-success' => 'template is destroyed successfully',
+    'destroy_t-error' => 'Error happened while detroying the template',
+
+    'recover_t-error' => 'Error happened while recovering the template',
+    'recover_t-success' => 'Successfully Recovered from trash',
+
+
+    'chng_status_error' => 'Error happened while changing template status',
+    'chng_status_success' => 'Successfully Changing template status',
+
+    'title_required' => 'title is required',
+    'message_required' => 'Message is required',
+
+
+    'edit_template_title' => 'Edite Template ',
+
 ];
