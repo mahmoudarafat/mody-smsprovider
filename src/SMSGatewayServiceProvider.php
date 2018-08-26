@@ -44,7 +44,7 @@ class SMSGatewayServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->alias(SMSProviderController::class, 'SMSProvider');
-        $this->app->make('mody/smsprovider/controllers/SMSProviderController');
+        $this->app->make('mody\smsprovider\controllers\SMSProviderController');
         $this->loadViewsFrom(__DIR__.'/views', 'smsprovider');
 
     }
