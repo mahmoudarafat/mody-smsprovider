@@ -5,6 +5,7 @@ namespace mody\smsprovider\Facades;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use mody\smsgateway\Facades\SMSGateway;
 use mody\smsprovider\controllers\SMSProviderController;
 use mody\smsprovider\controllers\SMSProviderTemplatesController;
 

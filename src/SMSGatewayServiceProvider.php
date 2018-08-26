@@ -18,10 +18,10 @@ class SMSGatewayServiceProvider extends ServiceProvider
         include __DIR__.'/routes/urls.php';
         include __DIR__.'/helpers.php';
 		$this->loadTranslationsFrom(__DIR__.'/lang', 'smsprovider');
-		if(! file_exists(public_path('packages\mody\smsprovider\style.css')))
+		if(! file_exists(public_path('packages/mody/smsprovider/style.css')))
 		{
 			$this->publishes([
-				__DIR__.'/assets' => public_path('packages\mody\smsprovider'),
+				__DIR__.'/assets' => public_path('packages/mody/smsprovider'),
 			], 'public');
 		}
 
@@ -44,7 +44,7 @@ class SMSGatewayServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->alias(SMSProviderController::class, 'SMSProvider');
-        $this->app->make('mody\smsprovider\controllers\SMSProviderController');
+        $this->app->make('mody/smsprovider/controllers/SMSProviderController');
         $this->loadViewsFrom(__DIR__.'/views', 'smsprovider');
 
     }

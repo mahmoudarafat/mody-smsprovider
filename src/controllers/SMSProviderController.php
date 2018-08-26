@@ -28,7 +28,7 @@ class SMSProviderController extends Controller
 
         $params = $provider->params;
 
-        foreach ($params as $param){
+        foreach ($params as $param) {
             $arr = [];
             $arr['key'] = $param->parameter;
             $arr['value'] = $param->value;
@@ -41,10 +41,10 @@ class SMSProviderController extends Controller
 
     public function authProviders()
     {
-        try{
+        try {
             $trytwo = Provider::where('user_id', auth()->user()->id)->paginate(20);
             return $trytwo;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return collect();
         }
     }
@@ -90,11 +90,11 @@ class SMSProviderController extends Controller
 
     public function authTrashedProvidersView()
     {
-        try{
+        try {
             $title = trans('smsprovider::smsgateway.user_trashed_providers_title');
             $trytwo = $this->authTrashedProviders();
             return view('smsprovider::auth-providers', compact('trytwo', 'title'));
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
@@ -181,12 +181,11 @@ class SMSProviderController extends Controller
 
             $plan = $this->getUserPlan();
 
-            if($plan == 'user')
-            {
+            if ($plan == 'user') {
                 return redirect()->route('smsprovider.providers.user-providers')->with([
                     'success' => trans('smsprovider::smsgateway.saved')
                 ]);
-            }else{
+            } else {
                 return redirect()->route('smsprovider.providers.group-providers')->with([
                     'success' => trans('smsprovider::smsgateway.saved')
                 ]);
@@ -233,12 +232,11 @@ class SMSProviderController extends Controller
 
             $plan = $this->getUserPlan();
 
-            if($plan == 'user')
-            {
+            if ($plan == 'user') {
                 return redirect()->route('smsprovider.providers.user-providers')->with([
                     'success' => trans('smsprovider::smsgateway.saved')
                 ]);
-            }else{
+            } else {
                 return redirect()->route('smsprovider.providers.group-providers')->with([
                     'success' => trans('smsprovider::smsgateway.saved')
                 ]);
@@ -251,10 +249,11 @@ class SMSProviderController extends Controller
         }
     }
 
-     public function sendNewSMS($message, $numbers)
+    public function sendNewSMS($message, $numbers)
     {
 
         $provider = $this->initProvider();
+        $tr = $this->trackArray();
         if ($provider) {
 
             $method = $provider->http_method;
@@ -306,7 +305,6 @@ class SMSProviderController extends Controller
                 $respo = '2';
             }
 
-            $tr = $this->trackArray();
 
             $nums = explode(',', $numbers);
 
