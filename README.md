@@ -36,10 +36,6 @@
       
       composer require mody/smsprovider
       
-*If you may get error, use this command
-	
-	composer require mody/smsprovider --prefer-dist
-
 ## after installation, do this:
 
 #### 1. config/app.php
@@ -72,6 +68,13 @@ choose if you want to track package activity
     
     'track' => true
 
+choose middleware you need
+    
+    'middleware' => ['web', 'auth']
+
+choose your athentication guard
+    
+    'guard' => 'web'   # auth()->user();
 
 add username [auth userame column]
     
@@ -90,22 +93,23 @@ add auth model
 
 # Features:
  ```
- 0. Multi Language support; Currently supports [Arabic and English].
- 1. you can add one or more sms provider/gateway to your account/group.
- 2. choose your default sms provider/gateway to send through it.
- 3. simple view for your account/group sms providers/gateways.
- 4. simple view for your account/group trash.
- 5. configuration changing over the recorded providers/gateways.
- 6. can move items to trash or destroy it for good.
- 7. can recover trashed items.
- 8. simple view for adding/updating any provider data.
- 9. send sms to single number or group of numbers.
- 10. simple view for messages sent/failed for account/group/provider. 
- 11. call collection of providers/gateways.
- 12. call collection of trashed providers/gateways.
- 13. simple view for track activity.
- 14. add/edit template messages.
- 15. send template messages.
+ 1. Guard Authentication support.   ## 'web', 'api', ....
+ 2. Multi Language support; Currently supports [Arabic and English].
+ 3. you can add one or more sms provider/gateway to your account/group.
+ 4. choose your default sms provider/gateway to send through it.
+ 5. simple view for your account/group sms providers/gateways.
+ 6. simple view for your account/group trash.
+ 7. configuration changing over the recorded providers/gateways.
+ 8. can move items to trash or destroy it for good.
+ 9. can recover trashed items.
+ 10. simple view for adding/updating any provider data.
+ 11. send sms to single number or group of numbers.
+ 12. simple view for messages sent/failed for account/group/provider. 
+ 13. call collection of providers/gateways.
+ 14. call collection of trashed providers/gateways.
+ 15. simple view for track activity.
+ 16. add/edit template messages.
+ 17. send template messages.
  ```
 
 ------------------------------------------------------------------------------
@@ -309,5 +313,74 @@ remove default provider
 	
 	url('smsprovider/group-log');
 ```
+------------------------------------------------------------------------------
+
+## ready templates 
+
+******Store one or more templates********
+```
+	$array = [
+		['title' => 'greets', 'message' => 'hello there'],
+		['title' => 'bye', 'message' => 'goodbye'],
+	];
+	SMSProvider::storeTemplates($array);
+```
+   also, you can do it with view:
 	
+	SMSProvider::createTemplates();
+******Change template status******
+
+```
+	SMSProvider::changeTemplateStatus($template_id);
+```
+
+******trash template******
+
+```
+	SMSProvider::trashTemplate($template_id);
+```
+
+******recover template******
+
+```
+	SMSProvider::recoverTemplate($template_id);
+```
+
+******delete template******
+
+```
+	SMSProvider::removeTemplate($template_id);
+```
+
+******auth user templates [20/page]******
+```php
+	SMSProvider::templates();
+	
+	SMSProvider::trashedTemplates();
+	
+	SMSProvider::templatesView();
+	
+	SMSProvider::trashTemplatesView();
+	
+	route('smsprovider.providers.user-templates');
+	
+	url('smsprovider/user-templates');
+```
+******group templates [20/page]******
+```php
+	SMSProvider::groupTemplates();
+	
+	SMSProvider::groupTrashedTemplates();
+	
+	SMSProvider::groupTemplatesView();
+	
+	SMSProvider::groupTrashTemplatesView();
+	
+	route('smsprovider.providers.group-templates');
+	
+	url('smsprovider/group-templates');
+```
+	
+	
+
 	
