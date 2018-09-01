@@ -27,6 +27,13 @@ class SMSProviderAjaxController extends Controller
         return json_encode($do);
     }
 
+    public function destroyProvider(Request $request)
+    {
+        $provider_id = $request->provider_id;
+        $do = SMSProvider::destroyProvider($provider_id);
+        return json_encode($do);
+    }
+
     public function removeDefaultProvider(Request $request)
     {
         $provider_id = $request->provider_id;

@@ -68,9 +68,9 @@
                         <select name="api_method" id="api_method" class="form-control">
                             <option>get</option>
                             <option>post</option>
-                            <option>put</option>
-                            <option>patch</option>
-                            <option>delete</option>
+                            {{--<option>put</option>--}}
+                            {{--<option>patch</option>--}}
+                            {{--<option>delete</option>--}}
                         </select>
                     </div>
 
@@ -100,12 +100,7 @@
                     <div class="form-group">
                         <h2 class="title-page">{{ trans('smsprovider::smsgateway.add_params') }}</h2>
 
-                        <div class="row">
-                            <div class="col-md-8">
-                                <a href="javascript:void(0)" id="new_additional"
-                                   class="btn btn-info col-md-2">{{ trans('smsprovider::smsgateway.add') }}</a>
-                            </div>
-                        </div>
+
                         <div id="additional_inputs">
                             <div class="col-md-7 col-md-offset-1" style="margin-bottom: 1em;">
                                 <div class="row" id="add_raw_mody">
@@ -131,6 +126,12 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-8">
+                                <a href="javascript:void(0)" id="new_additional"
+                                   class="btn btn-info col-md-2">{{ trans('smsprovider::smsgateway.add') }}</a>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">

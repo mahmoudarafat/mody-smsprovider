@@ -41,8 +41,11 @@ class SMSProviderController extends Controller
 
     public function authProviders()
     {
+
         try {
-            $trytwo = Provider::where('user_id', auth()->user()->id)->paginate(20);
+            $guard = $this->getMyGuard();
+
+            $trytwo = Provider::where('user_id', auth()->guard($guard)->user()->id)->paginate(20);
             return $trytwo;
         } catch (\Exception $e) {
             return collect();
@@ -79,8 +82,10 @@ class SMSProviderController extends Controller
 
     public function authTrashedProviders()
     {
-        if (auth()->check()) {
-            $trytwo = Provider::onlyTrashed()->where('user_id', auth()->user()->id)->paginate(20);
+        $guard = $this->getMyGuard();
+
+        if (auth()->guard($guard)->check()) {
+            $trytwo = Provider::onlyTrashed()->where('user_id', auth()->guard($guard)->user()->id)->paginate(20);
             return $trytwo;
         } else {
             return collect();
@@ -91,6 +96,7 @@ class SMSProviderController extends Controller
     public function authTrashedProvidersView()
     {
         try {
+
             $title = trans('smsprovider::smsgateway.user_trashed_providers_title');
             $trytwo = $this->authTrashedProviders();
             return view('smsprovider::auth-providers', compact('trytwo', 'title'));
@@ -118,9 +124,10 @@ class SMSProviderController extends Controller
         $default = $this->initProvider();
 
         $provider = Provider::find($provider_id);
+        $guard = $this->getMyGuard();
 
         if ($provider) {
-            DB::transaction(function () use ($provider_id, $default, $provider) {
+            DB::transaction(function () use ($provider_id, $default, $provider, $guard) {
 
                 $company_name = $provider->company_name;
 
@@ -139,7 +146,7 @@ class SMSProviderController extends Controller
                 if ($default) {
                     $description .= 'instead of ' . $def_name . '.';
                 }
-                $this->recordTrack($tr['5'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['5'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
             });
 
             return true;
@@ -155,8 +162,9 @@ class SMSProviderController extends Controller
 
         try {
             $this->validateRequest($request);
+            $guard = $this->getMyGuard();
 
-            DB::transaction(function () use ($request) {
+            DB::transaction(function () use ($request, $guard) {
 
                 `Save the provider data in providers table`;
                 $provider = $this->storeProvider($request);
@@ -175,7 +183,7 @@ class SMSProviderController extends Controller
 
                 $tr = $this->trackArray();
                 $description = 'new provider ' . $provider->company_name . ' [' . $provider->id . '] is added';
-                $this->recordTrack($tr['1'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['1'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
 
             });
 
@@ -204,7 +212,9 @@ class SMSProviderController extends Controller
         try {
             $this->validateRequest($request);
 
-            DB::transaction(function () use ($request) {
+            $guard = $this->getMyGuard();
+
+            DB::transaction(function () use ($request, $guard) {
 
                 `Save the provider data in providers table`;
                 $provider = $this->updateProvider($request);
@@ -225,7 +235,7 @@ class SMSProviderController extends Controller
 
                 $tr = $this->trackArray();
                 $description = 'provider ' . $provider->company_name . ' [' . $provider->id . '] is updated';
-                $this->recordTrack($tr['2'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['2'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
 
             });
 
@@ -251,6 +261,7 @@ class SMSProviderController extends Controller
 
     public function sendNewSMS($message, $numbers)
     {
+        $guard = $this->getMyGuard();
 
         $provider = $this->initProvider();
         $tr = $this->trackArray();
@@ -309,10 +320,10 @@ class SMSProviderController extends Controller
             $nums = explode(',', $numbers);
 
             foreach ($nums as $number) {
-                $message_id = $this->saveMessageData($code, $message, $number, $status, auth()->user()->id ?? 0, $provider->id);
+                $message_id = $this->saveMessageData($code, $message, $number, $status, auth()->guard($guard)->user()->id ?? 0, $provider->id);
                 $description = 'sending message to user';
                 ##### I'm here!!!
-                $this->recordTrack($tr['0'], auth()->user()->id ?? 0, $message_id, $provider->id, $description);
+                $this->recordTrack($tr['0'], auth()->guard($guard)->user()->id ?? 0, $message_id, $provider->id, $description);
             }
 
             return $respo;
@@ -325,14 +336,16 @@ class SMSProviderController extends Controller
 
     public function softDeleteProvider($provider_id)
     {
+        $guard = $this->getMyGuard();
+
         $provider = Provider::find($provider_id);
         if ($provider) {
-            \DB::transaction(function () use ($provider, $provider_id) {
+            \DB::transaction(function () use ($provider, $provider_id, $guard) {
                 $company_name = $provider->company_name;
                 $provider->delete();
                 $tr = $this->trackArray();
                 $description = 'put provider ' . $company_name . '[' . $provider_id . '] in trash';
-                $this->recordTrack($tr['3'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['3'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
             });
             return true;
         } else {
@@ -343,15 +356,17 @@ class SMSProviderController extends Controller
 
     public function forceDeleteProvider($provider_id)
     {
+        $guard = $this->getMyGuard();
+
         $provider = Provider::find($provider_id);
         if ($provider) {
-            \DB::transaction(function () use ($provider, $provider_id) {
+            \DB::transaction(function () use ($provider, $provider_id, $guard) {
 
                 $company_name = $provider->company_name;
-                $provider->forceDelete();
                 $tr = $this->trackArray();
                 $description = 'provider ' . $company_name . ' [' . $provider_id . '] is removed for god';
-                $this->recordTrack($tr['4'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['4'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $provider->forceDelete();
             });
             return true;
         } else {
@@ -363,8 +378,10 @@ class SMSProviderController extends Controller
     {
         $provider = Provider::withTrashed()->find($provider_id);
 
+        $guard = $this->getMyGuard();
+
         if ($provider) {
-            \DB::transaction(function () use ($provider, $provider_id) {
+            \DB::transaction(function () use ($provider, $provider_id, $guard) {
 
                 if ($provider->trashed()) {
                     $company_name = $provider->company_name;
@@ -372,8 +389,7 @@ class SMSProviderController extends Controller
 
                     $tr = $this->trackArray();
                     $description = 'provider ' . $company_name . ' [' . $provider_id . '] is restored from trash';
-                    $this->recordTrack($tr['7'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
-
+                    $this->recordTrack($tr['7'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
                 }
             });
             return true;
@@ -384,10 +400,12 @@ class SMSProviderController extends Controller
 
     public function removeDefault()
     {
+        $guard = $this->getMyGuard();
+
         $provider = $this->initProvider();
         if ($provider) {
             if ($provider->isDefault()) {
-                \DB::transaction(function () use ($provider) {
+                \DB::transaction(function () use ($provider, $guard) {
                     $company_name = $provider->company_name;
                     $provider_id = $provider->id;
                     $provider->default = false;
@@ -395,7 +413,7 @@ class SMSProviderController extends Controller
 
                     $tr = $this->trackArray();
                     $description = 'provider ' . $company_name . ' [' . $provider_id . '] is not the default Provider any more';
-                    $this->recordTrack($tr['6'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                    $this->recordTrack($tr['6'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
                 });
                 return true;
             } else {
@@ -469,8 +487,10 @@ class SMSProviderController extends Controller
 
     public function myTrack()
     {
-        if (auth()->check()) {
-            $track = Track::where('user_id', auth()->user()->id)
+        $guard = $this->getMyGuard();
+
+        if (auth()->guard($guard)->check()) {
+            $track = Track::where('user_id', auth()->guard($guard)->user()->id)
                 ->orderBy('created_at', 'DESC')
                 ->paginate(20);
             return $track;
@@ -487,8 +507,10 @@ class SMSProviderController extends Controller
 
     public function myLog()
     {
-        if (auth()->check()) {
-            $messages = Message::where('user_id', auth()->user()->id)
+        $guard = $this->getMyGuard();
+
+        if (auth()->guard($guard)->check()) {
+            $messages = Message::where('user_id', auth()->guard($guard)->user()->id)
                 ->orderBy('created_at', 'DESC')
                 ->paginate(20);
             return $messages;
@@ -497,9 +519,20 @@ class SMSProviderController extends Controller
         }
     }
 
-    public function myLogView()
+    public function myLogView(Request $request)
     {
-        $messages = $this->myLog();
+        $guard = $this->getMyGuard();
+
+        $messages = Message::where('user_id', auth()->guard($guard)->user()->id)
+                ->orderBy('created_at', 'DESC');
+
+        if ($request->has('from_date') && !in_array($request->from_date, ['', null, '0'])) {
+            $messages = $messages->where('created_at', '>=', $request->from_date);
+        }
+        if ($request->has('to_date') && !in_array($request->to_date, ['', null, '0'])) {
+            $messages = $messages->where('created_at', '<=', $request->to_date);
+        }
+        $messages = $messages->paginate(15);
         return view('smsprovider::message-log', compact('messages'));
     }
 
@@ -511,10 +544,25 @@ class SMSProviderController extends Controller
         return $messages;
     }
 
-    public function groupLogActivityView()
+    public function groupLogActivityView(Request $request)
     {
-        $messages = $this->groupLogActivity();
+        $messages = Message::where('group_id', session('group_id'))
+            ->orderBy('created_at', 'DESC');
+
+        if ($request->has('from_date') && !in_array($request->from_date, ['', null, '0'])) {
+            $messages = $messages->where('created_at', '>=', $request->from_date);
+        }
+        if ($request->has('to_date') && !in_array($request->to_date, ['', null, '0'])) {
+            $messages = $messages->where('created_at', '<=', $request->to_date);
+        }
+        $messages = $messages->paginate(15);
         return view('smsprovider::group-message-log', compact('messages'));
+    }
+
+    private function getMyGuard()
+    {
+        $g = config('smsgatewayConfig.guard');
+        return $g ?? 'web';
     }
 
 }

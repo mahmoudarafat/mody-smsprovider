@@ -3,9 +3,12 @@
 $SMSProvider = 'mody\smsprovider\Facades\SMSProvider';
 $TemplatesController = 'mody\smsprovider\controllers\SMSProviderTemplatesController';
 $SMSProviderAjaxController = 'mody\smsprovider\controllers\SMSProviderAjaxController';
+
+$middleware = config('smsgatewayConfig.middleware');
+
 $route =
     Route::group([
-        'middleware' => 'web',
+        'middleware' => $middleware,
         'prefix' => 'smsprovider',
         'as' => 'smsprovider.providers.'
     ],
@@ -34,6 +37,7 @@ $route =
             Route::get('user-trashed-templates', $TemplatesController . '@userTrashTempsView')->name('user-trashed-templates');
             Route::get('group-trashed-templates', $TemplatesController . '@groupTrashTempsView')->name('group-trashed-templates');
 
+            Route::get('store-templates', $TemplatesController . '@createTemplates')->name('create-user-templates');
             Route::post('store-templates', $TemplatesController . '@storeTemplates')->name('store-user-templates');
 
             Route::get('edit-template/{template_id}', $TemplatesController . '@editTemplate')->name('edit_template');

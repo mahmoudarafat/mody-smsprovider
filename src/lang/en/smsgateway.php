@@ -114,4 +114,10 @@ return [
 
     'edit_template_title' => 'Edite Template ',
 
+    'show' => 'Show',
+    'from' => 'From',
+    'to' => 'To',
+
+    'new_temps_title' => 'New SMS Templates',
+
 ];

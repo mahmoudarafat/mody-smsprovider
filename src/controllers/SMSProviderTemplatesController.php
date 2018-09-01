@@ -13,7 +13,10 @@ class SMSProviderTemplatesController extends Controller
     public function userTemps()
     {
         try {
-            $templates = Template::where('user_id', auth()->user()->id)
+
+            $guard = $this->getMyGuard();
+
+            $templates = Template::where('user_id', auth()->guard($guard)->user()->id)
 //                ->where('status', true)
                 ->paginate(20);
             return $templates;
@@ -33,9 +36,11 @@ class SMSProviderTemplatesController extends Controller
     public function userTrashTemps()
     {
         try {
+            $guard = $this->getMyGuard();
+
             $templates = Template::onlyTrashed()
 //                ->where('status', true)
-                ->where('user_id', auth()->user()->id)
+                ->where('user_id', auth()->guard($guard)->user()->id)
                 ->paginate(20);
             return $templates;
         } catch (\Exception $e) {
@@ -51,13 +56,17 @@ class SMSProviderTemplatesController extends Controller
         return $trytwo;
     }
 
+
+
+
     public function storeArrayTemplates($array)
     {
+        $guard = $this->getMyGuard();
         foreach ($array as $value) {
             $temp = new Template();
             $temp->message_type = $value['title'];
             $temp->message = $value['message'];
-            $temp->user_id = auth()->user() ? auth()->user()->id : 0;
+            $temp->user_id = auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : 0;
             $temp->group_id = session('group_id') ?? 0;
             $temp->status = 1;
             $temp->save();
@@ -180,5 +189,34 @@ class SMSProviderTemplatesController extends Controller
         $template->save();
 
         return redirect()->route('smsprovider.providers.user-templates')->with(['success' => trans('smsprovider.smsgateway.saved')]);
+    }
+
+    public function createTemplates()
+    {
+        return view('smsprovider::new-templates');
+    }
+
+    public function storeTemplates(Request $request)
+    {
+
+
+        $data = [];
+        foreach ($request->title as $key => $title){
+            $d = [];
+            $d['title'] = $title;
+            $d['message'] = $request->message[$key];
+            array_push($data, $d);
+        }
+
+        $this->storeArrayTemplates($data);
+        return redirect()->back()->with([
+            'success' => trans('smsprovider::smsgateway.saved')
+        ]);
+    }
+
+    private function getMyGuard()
+    {
+        $g = config('smsgatewayConfig.guard');
+        return $g ?? 'web';
     }
 }

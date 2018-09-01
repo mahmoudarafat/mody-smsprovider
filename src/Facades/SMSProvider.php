@@ -207,9 +207,9 @@ class SMSProvider extends SMSProviderController
     /**
      * @return user track activity view
      */
-    public static function logView()
+    public static function logView(Request $request)
     {
-        return (new parent())->myLogView();
+        return (new parent())->myLogView($request);
     }
 
 
@@ -224,9 +224,9 @@ class SMSProvider extends SMSProviderController
     /**
      * @return user track activity view
      */
-    public static function groupLogView()
+    public static function groupLogView(Request $request)
     {
-        return (new parent())->groupLogActivityView();
+        return (new parent())->groupLogActivityView($request);
     }
 
     /* =-=-=-=-=-=-=-=-=-=-=-=-=-TEMPLATES-=-==-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -302,6 +302,15 @@ class SMSProvider extends SMSProviderController
     {
         return (new SMSProviderTemplatesController())->groupTrashTempsView();
     }
+
+    /**
+     * @return create templates View
+     */
+    public static function createTemplates()
+    {
+        return (new SMSProviderTemplatesController())->createTemplates();
+    }
+
 
     /**
      * @return change template status

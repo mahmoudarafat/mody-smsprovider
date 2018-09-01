@@ -366,9 +366,10 @@ trait SMSGateway
     {
         $plan = $this->getUserPlan();
 
+        $guard = $this->getMyGuard();
 
         if($plan === 'user'){
-            $trytwo = Provider::where('user_id', auth()->user()->id)->where('default', 1)->first();
+            $trytwo = Provider::where('user_id', auth()->guard($guard)->user()->id)->where('default', 1)->first();
             if ($trytwo) {
                 return $trytwo;
             }else{

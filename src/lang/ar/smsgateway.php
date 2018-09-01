@@ -83,7 +83,7 @@ return [
     'available' => 'مفعل',
     'frozen' => 'غير مفعل',
     'user_templates_title' => 'نماذج الارسال الجاهزة',
-    'group_templates_title' => 'نمائج الارسال الجاهزة الخاصة بالمجموعة',
+    'group_templates_title' => 'نماذج الارسال الجاهزة الخاصة بالمجموعة',
     'user_trashed_templates_title' => 'سلة محذوفات نماذئج الارسال',
     'group_trashed_templates_title' => 'سلة ممحذوفات نمائج ارسال المجموعة',
     'freeze' => 'الغاء تفعيل',
@@ -115,5 +115,10 @@ return [
 
     'edit_template_title' => 'تعديل النموذج ',
 
+'show' => 'عرض',
+'from' => 'من',
+'to' => 'الي',
+
+    'new_temps_title' => 'اضافة نماذج ارسال جاهزة',
 
 ];

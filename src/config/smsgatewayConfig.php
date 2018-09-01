@@ -31,10 +31,34 @@ return [
  *          'sms_provider_track_activity' => 'track user activity while using package methods'
  *      ]
  */
-    
+
+    /*
+    * Are you in group or just you?
+    */
     'plan' => 'user',
+
+    /*
+     * Should I store your/group actions in your database?
+     */
     'track' => true,
-  
+
+    /*
+     * your middlewares. ['web', 'auth', 'language', .....]
+     */
+    'middleware' => ['web', 'auth'],
+
+    /*
+     * Authentication guard you will use ['web, 'api', ....]
+     */
+    'guard' => 'web',
+
+    /*
+     * how can I call you? [$user->name]
+     */
     'username' => 'name',
+
+    /*
+     * Where can I find you? [$user = User::find($my_id);]
+     */
     'user_model_namespace' => 'App\User',
 ];

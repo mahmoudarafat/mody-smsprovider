@@ -10,7 +10,33 @@
                 <h1 class="pager text-primary">{{ trans('smsprovider::smsgateway.log_title') }}</h1>
                 <hr>
             </div>
-            @if($messages->count() > 0)
+
+            <div class="col-md-12">
+
+                <form>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-1">
+                            <div class="form-group">
+                                <label for="from">{{ trans('smsprovider::smsgateway.from') }}</label>
+                                <input type="text" name="from_date" class="form-control date" value="{{ request('from_date') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="to">{{ trans('smsprovider::smsgateway.to') }}</label>
+                                <input type="text" name="to_date" class="form-control date" value="{{ request('to_date') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button style="margin-top: 1.7em;" class="btn btn-success">{{ trans('smsprovider::smsgateway.show') }}</button>
+                        </div>
+                    </div>
+                </form>
+
+                <hr>
+            </div>
+
+        @if($messages->count() > 0)
                 <div class="col-md-10 col-md-offset-1">
 
                     <table class="table table-bordered table-hover">
@@ -44,7 +70,7 @@
                     </table>
 
                     <div class="text-center">
-                        {!! $messages->links() !!}
+                        {!! $messages->appends(Request::capture()->except('page'))->render() !!}
                     </div>
                 </div>
             @else

@@ -10,6 +10,8 @@ trait ProviderConfig
 
     protected function storeProvider($request)
     {
+        $guard = $this->getMyGuard();
+
         $provider = new Provider();
         $provider->company_name = $request->api_company;
         $provider->api_url = $request->api_url;
@@ -22,7 +24,7 @@ trait ProviderConfig
         $provider->http_method = $request->api_method;
         $provider->default = 0;
         $provider->group_id = session('group_id');
-        $provider->user_id = auth()->user() ? auth()->user()->id : null;
+        $provider->user_id = auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null;
         $provider->save();
         return $provider;
     }
@@ -43,6 +45,7 @@ trait ProviderConfig
 
     protected function storeAdditionalParams($provider_id, $names, $values)
     {
+        $guard = $this->getMyGuard();
 
         foreach ($names as $key => $name) {
             if (!in_array($name, ['', null])) {
@@ -50,7 +53,7 @@ trait ProviderConfig
                 $params->parameter = $name;
                 $params->value = $values[$key];
                 $params->group_id = session('group_id');
-                $params->user_id = auth()->user() ? auth()->user()->id : null;
+                $params->user_id = auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null;
                 $params->sms_provider_id = $provider_id;
                 $params->save();
             }
@@ -92,6 +95,12 @@ trait ProviderConfig
         $ready = str_replace($delimiters, $delimiters[0], $string);
         $launch = explode($delimiters[0], $ready);
         return $launch;
+    }
+
+    private function getMyGuard()
+    {
+        $g = config('smsgatewayConfig.guard');
+        return $g ?? 'web';
     }
 
 }
