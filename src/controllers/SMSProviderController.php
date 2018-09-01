@@ -277,9 +277,12 @@ class SMSProviderController extends Controller
 
             curl_setopt($ch, CURLOPT_URL, $url . '?' . $t);
 
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+            if($method != 'get')
+            {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+            }
 
-//            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 //        curl_setopt($ch, CURLOPT_HTTPHEADER, $t);
