@@ -1,3 +1,4 @@
+{{--
 @if($errors->any())
     <div class="row">
         <div class="col-xs-12 col-sm-12">
@@ -10,6 +11,7 @@
         </div>
     </div>
 @endif
+--}}
 
 @if(session()->has('success'))
     <div class="row">

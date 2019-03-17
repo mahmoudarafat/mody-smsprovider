@@ -264,6 +264,9 @@ class SMSProviderController extends Controller
         $guard = $this->getMyGuard();
 
         $provider = $this->initProvider();
+
+
+
         $tr = $this->trackArray();
         if ($provider) {
 
