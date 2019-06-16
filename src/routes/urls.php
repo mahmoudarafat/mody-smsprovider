@@ -13,7 +13,7 @@ $route =
         'as' => 'smsprovider.providers.'
     ],
         function () use ($SMSProvider, $SMSProviderAjaxController, $TemplatesController) {
-            Route::get('setup', $SMSProvider . '@configProvider');
+            Route::get('setup', $SMSProvider . '@configProvider')->name('setup');
             Route::post('submit_setup', $SMSProvider . '@submitProviderSetup')->name('submit_setup');
 
             Route::get('user-providers', $SMSProvider . '@myProvidersView')->name('user-providers');
