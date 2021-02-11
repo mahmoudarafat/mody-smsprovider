@@ -10,6 +10,7 @@ trait ProviderConfig
 
     protected function storeProvider($request)
     {
+
         $guard = $this->getMyGuard();
 
         $provider = new Provider();
@@ -22,7 +23,7 @@ trait ProviderConfig
         $provider->success_code = $request->api_success_code;
         $provider->unicode = $request->api_unicode ? 1 : 0;
         $provider->http_method = $request->api_method;
-        $provider->default = 0;
+        $provider->default = $this->isDefaultProvider();
         $provider->group_id = session('group_id');
         $provider->user_id = auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null;
         $provider->save();
@@ -72,7 +73,6 @@ trait ProviderConfig
             'api_destination' => 'required',
             'api_message' => 'required',
             'api_success_code' => 'required',
-
         ];
 
         $messages = [
@@ -86,7 +86,21 @@ trait ProviderConfig
             'api_message.required' => trans('smsprovider::smsgateway.attributes.message_attr'),
             'api_success_code.required' => trans('smsprovider::smsgateway.attributes.success_code'),
         ];
-        $this->validate($request, $rules, $messages);
+        $validator = \Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $error_data = [];
+            foreach ($errors->all() as $error) {
+                array_push($error_data, $error);
+            } 
+            $errors = $error_data;
+            $view = view('smsprovider::layouts.validation', compact('errors'))->render();
+            return [
+                'status' => false,
+                'errors' => $errors,
+                'view' => $view
+            ];
+        }
     }
 
     private function multiexplode($delimiters, $string)
@@ -103,4 +117,11 @@ trait ProviderConfig
         return $g ?? 'web';
     }
 
+    private function isDefaultProvider(){
+        $guard = $this->getMyGuard();
+        return Provider::where('default', 1)
+            ->where('group_id', session('group_id'))
+            ->where('user_id',  auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+            ->first() ? 0 : 1;   
+    }
 }

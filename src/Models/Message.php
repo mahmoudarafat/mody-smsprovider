@@ -18,7 +18,6 @@ class Message extends Model
         return $this->belongsTo(Provider::class, 'sms_provider_id', 'id');
     }
 
-
     public function user()
     {
         $auth = config('smsgatewayConfig.user_model_namespace');

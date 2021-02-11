@@ -2,6 +2,19 @@
 
 return [
 
+    
+    'attributes' => [
+        'company_name' => 'SMS provider company name is required',
+        'url_required' => 'sending url is required',
+        'url_unique' => 'sending url is already in use',
+        'http_method' => 'HTTP method is required',
+        'destination_attr' => 'receiver attribute is required',
+        'message_attr' => 'message attribute is required',
+        'success_code' => 'success code is required',
+        'api_username' => 'username is required',
+        'api_password' => 'password is required'
+    ],
+
     'account_settings' => 'Account Settings',
     'username_column' => 'Username Column Name',
     'username_value' => 'Username',

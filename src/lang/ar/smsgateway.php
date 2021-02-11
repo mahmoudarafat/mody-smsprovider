@@ -2,6 +2,18 @@
 
 return [
 
+    'attributes' => [
+        'company_name' => 'اسم شركة مزود الخدمة مطلوب',
+        'url_required' => 'رابط الارسال مطلوب',
+        'url_unique' => 'رابط الارسال مستخدم من قبل',
+        'http_method' => 'نوع العملية مطلوب',
+        'destination_attr' => 'اسم حقل المستلم مطلوب',
+        'message_attr' => 'حقل الرسالة مطلوب',
+        'success_code' => 'كود نجاح الارسال مطلوب',
+        'api_username' => 'اسم المستخدم مطلوب',
+        'api_password' => 'الرقم السري مطلوب'
+    ],
+
     'config_title' =>'تكوين  مزود بوابة الرسائل النصية',
     'account_settings' =>'اعدادات حسابك',
     'username_column' =>'حقل اسم المستخدم',

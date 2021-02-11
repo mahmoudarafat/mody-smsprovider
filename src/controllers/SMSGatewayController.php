@@ -31,7 +31,8 @@ class SMSGatewayController extends Controller
 
     public function authProviders()
     {
-        $trytwo = Provider::where('user_id', auth()->user()->id)->paginate(20);
+        $trytwo = Provider::where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+        ->where('group_id', session('group_id'))->paginate(20);
         return $trytwo;
     }
 
@@ -57,7 +58,8 @@ class SMSGatewayController extends Controller
 
     public function authTrashedProviders()
     {
-        $trytwo = Provider::onlyTrashed()->where('user_id', auth()->user()->id)->paginate(20);
+        $trytwo = Provider::onlyTrashed()->where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+        ->where('group_id', session('group_id'))->paginate(20);
         return $trytwo;
     }
 
@@ -106,7 +108,7 @@ class SMSGatewayController extends Controller
                 if ($default) {
                     $description .= 'instead of ' . $def_name . '.';
                 }
-                $this->recordTrack($tr['5'], auth()->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['5'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id ?? 0, $provider->id ?? 0, $description);
 
                 return true;
             } else {
@@ -321,7 +323,7 @@ class SMSGatewayController extends Controller
         return $tr;
     }
 
-    public function recordTrack($type, $user_id = 0, $message_id = null, $provider_id = null, $description = null)
+    public function recordTrack($type, $user_id = null, $message_id = null, $provider_id = null, $description = null)
     {
         $tr = $this->getTrackStatus();
 
@@ -337,7 +339,7 @@ class SMSGatewayController extends Controller
         }
     }
 
-    public function saveMessageData($code, $message, $number, $status, $user_id = 0, $provider_id = 0)
+    public function saveMessageData($code, $message, $number, $status, $user_id = null, $provider_id = 0)
     {
         $msg = new Message();
         $msg->message = $message;

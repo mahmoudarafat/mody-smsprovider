@@ -8,7 +8,6 @@ use DB;
 use mody\smsgateway\controllers\SMSGatewayController;
 
 class SMSGateway extends SMSGatewayController
-
 {
 
     /**

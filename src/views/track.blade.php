@@ -22,15 +22,12 @@
                         </tr>
                         </thead>
                         <tbody id="table-body">
-                        @foreach($track->chunk(20) as $item_ch)
-                            @foreach($item_ch as $item)
+                        @foreach($track as $item)
                                 <tr id="itemrow-{{ $item->id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td class="text-info">{{ $item->description }}</td>
-
                                 </tr>
-                            @endforeach
                         @endforeach
 
                         </tbody>

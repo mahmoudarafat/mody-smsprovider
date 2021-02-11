@@ -16,7 +16,8 @@ class SMSProviderTemplatesController extends Controller
 
             $guard = $this->getMyGuard();
 
-            $templates = Template::where('user_id', auth()->guard($guard)->user()->id)
+            $templates = Template::where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+            ->where('group_id', session('group_id'))
 //                ->where('status', true)
                 ->paginate(20);
             return $templates;
@@ -40,7 +41,8 @@ class SMSProviderTemplatesController extends Controller
 
             $templates = Template::onlyTrashed()
 //                ->where('status', true)
-                ->where('user_id', auth()->guard($guard)->user()->id)
+                ->where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+                ->where('group_id', session('group_id'))
                 ->paginate(20);
             return $templates;
         } catch (\Exception $e) {
@@ -66,8 +68,8 @@ class SMSProviderTemplatesController extends Controller
             $temp = new Template();
             $temp->message_type = $value['title'];
             $temp->message = $value['message'];
-            $temp->user_id = auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : 0;
-            $temp->group_id = session('group_id') ?? 0;
+            $temp->user_id = auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null;
+            $temp->group_id = session('group_id') ?? null;
             $temp->status = 1;
             $temp->save();
         }
@@ -198,7 +200,15 @@ class SMSProviderTemplatesController extends Controller
 
     public function storeTemplates(Request $request)
     {
-
+        $rules = [
+            'title' => 'required',
+            'message' => 'required',
+        ];
+        $messages = [
+            'title.required' => trans('smsprovider.smsgateway.title_required'),
+            'message.required' => trans('smsprovider.smsgateway.message_required'),
+        ];
+        $this->validate($request, $rules, $messages);
 
         $data = [];
         foreach ($request->title as $key => $title){
@@ -219,4 +229,5 @@ class SMSProviderTemplatesController extends Controller
         $g = config('smsgatewayConfig.guard');
         return $g ?? 'web';
     }
+
 }

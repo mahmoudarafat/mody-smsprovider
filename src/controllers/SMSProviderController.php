@@ -18,7 +18,8 @@ class SMSProviderController extends Controller
 
     public function index()
     {
-        return view('smsprovider::setup');
+        $errors = [];
+        return view('smsprovider::setup', compact('errors'));
     }
 
     public function editProviderConfig($provider_id)
@@ -44,8 +45,12 @@ class SMSProviderController extends Controller
 
         try {
             $guard = $this->getMyGuard();
-
-            $trytwo = Provider::where('user_id', auth()->guard($guard)->user()->id)->paginate(20);
+            // if(auth()->guard($guard)->user()){
+                $trytwo = Provider::where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+                ->where('group_id', session('group_id'))->paginate(20);
+            // }else{
+                // $trytwo = Provider::paginate(20);
+            // }
             return $trytwo;
         } catch (\Exception $e) {
             return collect();
@@ -84,19 +89,19 @@ class SMSProviderController extends Controller
     {
         $guard = $this->getMyGuard();
 
-        if (auth()->guard($guard)->check()) {
-            $trytwo = Provider::onlyTrashed()->where('user_id', auth()->guard($guard)->user()->id)->paginate(20);
+        // if (auth()->guard($guard)->check()) {
+            $trytwo = Provider::onlyTrashed()->where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+            ->where('group_id', session('group_id'))->paginate(20);
             return $trytwo;
-        } else {
-            return collect();
-        }
+        // } else {
+            // return collect();
+        // }
 
     }
 
     public function authTrashedProvidersView()
     {
         try {
-
             $title = trans('smsprovider::smsgateway.user_trashed_providers_title');
             $trytwo = $this->authTrashedProviders();
             return view('smsprovider::auth-providers', compact('trytwo', 'title'));
@@ -146,7 +151,7 @@ class SMSProviderController extends Controller
                 if ($default) {
                     $description .= 'instead of ' . $def_name . '.';
                 }
-                $this->recordTrack($tr['5'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['5'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null , $message_id ?? 0, $provider->id ?? 0, $description);
             });
 
             return true;
@@ -159,9 +164,11 @@ class SMSProviderController extends Controller
 
     public function submitSetup(Request $request)
     {
-
+        $validation = $this->validateRequest($request);
+        if($validation && is_array($validation) && $validation['status'] == false){
+            return response()->json($validation);   
+        }
         try {
-            $this->validateRequest($request);
             $guard = $this->getMyGuard();
 
             DB::transaction(function () use ($request, $guard) {
@@ -173,45 +180,49 @@ class SMSProviderController extends Controller
                 $names = $request->api_add_name ?? [];
                 $values = $request->api_add_value ?? [];
 
-//                array_push($names, $request->username_column);
-//                array_push($values, $request->username_value);
-//                array_push($names, $request->api_password_column);
-//                array_push($values, $request->api_password_value);
-
                 `Store provider parameters`;
                 $this->storeAdditionalParams($provider->id, $names, $values);
 
                 $tr = $this->trackArray();
                 $description = 'new provider ' . $provider->company_name . ' [' . $provider->id . '] is added';
-                $this->recordTrack($tr['1'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['1'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id ?? 0, $provider->id ?? 0, $description);
 
             });
 
             $plan = $this->getUserPlan();
 
             if ($plan == 'user') {
-                return redirect()->route('smsprovider.providers.user-providers')->with([
-                    'success' => trans('smsprovider::smsgateway.saved')
+                return response()->json([
+                    'status' => true,
+                    'message' => trans('smsprovider::smsgateway.saved'),
+                    'redirection' => route('smsprovider.providers.user-providers')
                 ]);
             } else {
-                return redirect()->route('smsprovider.providers.group-providers')->with([
-                    'success' => trans('smsprovider::smsgateway.saved')
+                return response()->json([
+                    'status' => true,
+                    'message' => trans('smsprovider::smsgateway.saved'),
+                    'redirection' => route('smsprovider.providers.group-providers')
                 ]);
             }
-
         } catch (\Exception $e) {
-            return redirect()->back()->with([
-                'error' => trans('smsprovider::smsgateway.error')
-            ]);
+            $errors = [trans('smsprovider::smsgateway.error')];
+            $view = view('smsprovider::layouts.validation', compact('errors'))->render();
+            return [
+                'status' => false,
+                'errors' => $errors,
+                'view' => $view
+            ];
         }
     }
 
     public function submitUpdate(Request $request)
     {
-
+        $validation = $this->validateRequest($request);
+        if($validation && is_array($validation) && $validation['status'] == false){
+            return response()->json($validation);   
+        }
         try {
-            $this->validateRequest($request);
-
+         
             $guard = $this->getMyGuard();
 
             DB::transaction(function () use ($request, $guard) {
@@ -223,11 +234,6 @@ class SMSProviderController extends Controller
                 $names = $request->api_add_name ?? [];
                 $values = $request->api_add_value ?? [];
 
-//                array_push($names, $request->username_column);
-//                array_push($values, $request->username_value);
-//                array_push($names, $request->api_password_column);
-//                array_push($values, $request->api_password_value);
-
                 $provider->params()->forceDelete();
 
                 `Store provider parameters`;
@@ -235,27 +241,34 @@ class SMSProviderController extends Controller
 
                 $tr = $this->trackArray();
                 $description = 'provider ' . $provider->company_name . ' [' . $provider->id . '] is updated';
-                $this->recordTrack($tr['2'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['2'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id ?? 0, $provider->id ?? 0, $description);
 
             });
-
 
             $plan = $this->getUserPlan();
 
             if ($plan == 'user') {
-                return redirect()->route('smsprovider.providers.user-providers')->with([
-                    'success' => trans('smsprovider::smsgateway.saved')
+                return response()->json([
+                    'status' => true,
+                    'message' => trans('smsprovider::smsgateway.saved'),
+                    'redirection' => route('smsprovider.providers.user-providers')
                 ]);
             } else {
-                return redirect()->route('smsprovider.providers.group-providers')->with([
-                    'success' => trans('smsprovider::smsgateway.saved')
+                return response()->json([
+                    'status' => true,
+                    'message' => trans('smsprovider::smsgateway.saved'),
+                    'redirection' => route('smsprovider.providers.group-providers')
                 ]);
             }
 
         } catch (\Exception $e) {
-            return redirect()->back()->with([
-                'error' => trans('smsprovider::smsgateway.error')
-            ]);
+            $errors = [trans('smsprovider::smsgateway.error')];
+            $view = view('smsprovider::layouts.validation', compact('errors'))->render();
+            return [
+                'status' => false,
+                'errors' => $errors,
+                'view' => $view
+            ];
         }
     }
 
@@ -264,9 +277,6 @@ class SMSProviderController extends Controller
         $guard = $this->getMyGuard();
 
         $provider = $this->initProvider();
-
-
-
         $tr = $this->trackArray();
         if ($provider) {
 
@@ -326,10 +336,10 @@ class SMSProviderController extends Controller
             $nums = explode(',', $numbers);
 
             foreach ($nums as $number) {
-                $message_id = $this->saveMessageData($code, $message, $number, $status, auth()->guard($guard)->user()->id ?? 0, $provider->id);
+                $message_id = $this->saveMessageData($code, $message, $number, $status, auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $provider->id);
                 $description = 'sending message to user';
                 ##### I'm here!!!
-                $this->recordTrack($tr['0'], auth()->guard($guard)->user()->id ?? 0, $message_id, $provider->id, $description);
+                $this->recordTrack($tr['0'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id, $provider->id, $description);
             }
 
             return $respo;
@@ -351,7 +361,7 @@ class SMSProviderController extends Controller
                 $provider->delete();
                 $tr = $this->trackArray();
                 $description = 'put provider ' . $company_name . '[' . $provider_id . '] in trash';
-                $this->recordTrack($tr['3'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['3'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id ?? 0, $provider->id ?? 0, $description);
             });
             return true;
         } else {
@@ -371,7 +381,7 @@ class SMSProviderController extends Controller
                 $company_name = $provider->company_name;
                 $tr = $this->trackArray();
                 $description = 'provider ' . $company_name . ' [' . $provider_id . '] is removed for god';
-                $this->recordTrack($tr['4'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                $this->recordTrack($tr['4'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id ?? 0, $provider->id ?? 0, $description);
                 $provider->forceDelete();
             });
             return true;
@@ -395,7 +405,7 @@ class SMSProviderController extends Controller
 
                     $tr = $this->trackArray();
                     $description = 'provider ' . $company_name . ' [' . $provider_id . '] is restored from trash';
-                    $this->recordTrack($tr['7'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                    $this->recordTrack($tr['7'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id ?? 0, $provider->id ?? 0, $description);
                 }
             });
             return true;
@@ -419,7 +429,7 @@ class SMSProviderController extends Controller
 
                     $tr = $this->trackArray();
                     $description = 'provider ' . $company_name . ' [' . $provider_id . '] is not the default Provider any more';
-                    $this->recordTrack($tr['6'], auth()->guard($guard)->user()->id ?? 0, $message_id ?? 0, $provider->id ?? 0, $description);
+                    $this->recordTrack($tr['6'], auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null, $message_id ?? 0, $provider->id ?? 0, $description);
                 });
                 return true;
             } else {
@@ -445,7 +455,7 @@ class SMSProviderController extends Controller
         return $tr;
     }
 
-    public function recordTrack($type, $user_id = 0, $message_id = null, $provider_id = null, $description = null)
+    public function recordTrack($type, $user_id = null, $message_id = null, $provider_id = null, $description = null)
     {
         $tr = $this->getTrackStatus();
 
@@ -461,7 +471,7 @@ class SMSProviderController extends Controller
         }
     }
 
-    public function saveMessageData($code, $message, $number, $status, $user_id = 0, $provider_id = 0)
+    public function saveMessageData($code, $message, $number, $status, $user_id = null, $provider_id = 0)
     {
         $msg = new Message();
         $msg->message = $message;
@@ -495,14 +505,15 @@ class SMSProviderController extends Controller
     {
         $guard = $this->getMyGuard();
 
-        if (auth()->guard($guard)->check()) {
-            $track = Track::where('user_id', auth()->guard($guard)->user()->id)
+        // if (auth()->guard($guard)->check()) {
+            $track = Track::where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+            ->where('group_id', session('group_id'))
                 ->orderBy('created_at', 'DESC')
                 ->paginate(20);
             return $track;
-        } else {
-            return collect();
-        }
+        // } else {
+            // return collect();
+        // }
     }
 
     public function myTrackView()
@@ -515,21 +526,23 @@ class SMSProviderController extends Controller
     {
         $guard = $this->getMyGuard();
 
-        if (auth()->guard($guard)->check()) {
-            $messages = Message::where('user_id', auth()->guard($guard)->user()->id)
+        // if (auth()->guard($guard)->check()) {
+            $messages = Message::where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+            ->where('group_id', session('group_id'))
                 ->orderBy('created_at', 'DESC')
                 ->paginate(20);
             return $messages;
-        } else {
-            return collect();
-        }
+        // } else {
+            // return collect();
+        // }
     }
 
     public function myLogView(Request $request)
     {
         $guard = $this->getMyGuard();
 
-        $messages = Message::where('user_id', auth()->guard($guard)->user()->id)
+        $messages = Message::where('user_id', auth()->guard($guard)->user() ? auth()->guard($guard)->user()->id : null)
+        ->where('group_id', session('group_id'))
                 ->orderBy('created_at', 'DESC');
 
         if ($request->has('from_date') && !in_array($request->from_date, ['', null, '0'])) {

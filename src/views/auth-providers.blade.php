@@ -234,7 +234,7 @@
                     $('#message-info').empty().append(
                         '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.recover_error') }}' + '</p>'
                     );
-                    etTimeout(function () {
+                    setTimeout(function () {
                         $('#message-info').empty();
                     }, 2500);
                 });
@@ -261,11 +261,11 @@
                     if (response.data === true) {
                         $('#itemrow-' + id).fadeOut('slow').remove();
                         $('#message-info').empty().append(
-                            '<p class="text-center alert alert-success">' + '{{ trans('smsprovider::smsgateway.delete_success') }}' + '</p>'
+                            '<p class="text-center alert alert-success">' + '{{ trans('smsprovider::smsgateway.delete-success') }}' + '</p>'
                         );
                     } else {
                         $('#message-info').empty().append(
-                            '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.delete_error') }}' + '</p>'
+                            '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.delete-error') }}' + '</p>'
                         );
                     }
 
@@ -278,7 +278,7 @@
                     $('#load-' + id).css('display', 'none');
 
                     $('#message-info').empty().append(
-                        '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.delete_error') }}' + '</p>'
+                        '<p class="text-center alert alert-danger">' + '{{ trans('smsprovider::smsgateway.delete-error') }}' + '</p>'
                     );
                     etTimeout(function () {
                         $('#message-info').empty();
